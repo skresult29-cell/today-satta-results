@@ -89,7 +89,7 @@ export default function GameChartPage({
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#1e3a5f] text-center mb-1">
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#1e293b] text-center mb-1">
         {gameName} Chart Record
       </h1>
       <p className="text-center text-gray-500 text-sm mb-6">
@@ -104,7 +104,7 @@ export default function GameChartPage({
         >
           <FiChevronLeft size={20} />
         </button>
-        <div className="text-lg font-bold text-[#1e3a5f] min-w-[200px] text-center">
+        <div className="text-lg font-bold text-[#1e293b] min-w-[200px] text-center">
           {displayMonth || "..."} {displayYear}
         </div>
         <button
@@ -121,13 +121,12 @@ export default function GameChartPage({
         {loading ? (
           <div className="text-center py-12 text-gray-400">Loading chart...</div>
         ) : rows.length > 0 ? (
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead>
-              <tr className="bg-[#1e3a5f] text-white">
-                <th className="py-3 px-4 text-left font-semibold">Date</th>
-                <th className="py-3 px-4 text-left font-semibold">Day</th>
-                <th className="py-3 px-4 text-center font-semibold">{gameName} Result</th>
-                {resultTime && <th className="py-3 px-4 text-right font-semibold">Time</th>}
+              <tr className="bg-[#1e293b] text-white">
+                <th className="py-3 px-3 md:px-4 text-left font-semibold">Date</th>
+                <th className="py-3 px-3 md:px-4 text-left font-semibold">Day</th>
+                <th className="py-3 px-3 md:px-4 text-center font-semibold">{gameName} Result</th>
               </tr>
             </thead>
             <tbody>
@@ -138,20 +137,22 @@ export default function GameChartPage({
                     i % 2 === 0 ? "bg-white" : "bg-gray-50/50"
                   }`}
                 >
-                  <td className="py-3 px-4 text-gray-700">{row.date}</td>
-                  <td className="py-3 px-4 text-gray-500">{row.day}</td>
-                  <td className="py-3 px-4 text-center">
-                    <span className={`inline-block min-w-[40px] py-1 px-3 rounded-md font-bold font-mono ${
+                  <td className="py-3 px-3 md:px-4 font-bold text-gray-800">{row.date}</td>
+                  <td className="py-3 px-3 md:px-4">
+                    <div className="font-bold text-gray-800">{row.day}</div>
+                    {resultTime && (
+                      <div className="text-xs font-semibold text-gray-400 mt-0.5">{resultTime}</div>
+                    )}
+                  </td>
+                  <td className="py-3 px-3 md:px-4 text-center">
+                    <span className={`inline-block min-w-[44px] py-1.5 px-4 rounded-lg font-extrabold font-mono text-lg ${
                       row.result === "XX" || !row.result
                         ? "text-gray-400"
-                        : "bg-emerald-50 text-emerald-700"
+                        : "bg-emerald-100 text-emerald-700"
                     }`}>
                       {row.result || "XX"}
                     </span>
                   </td>
-                  {resultTime && (
-                    <td className="py-3 px-4 text-right text-gray-400 text-xs">{resultTime}</td>
-                  )}
                 </tr>
               ))}
             </tbody>

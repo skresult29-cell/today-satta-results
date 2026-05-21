@@ -13,13 +13,12 @@ export function ChartTable({ records, gameName }: { records: ChartRecord[]; game
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse">
+      <table className="w-full text-base border-collapse">
         <thead>
-          <tr className="bg-[#1e3a5f] text-white">
-            <th className="px-4 py-3 text-left font-semibold">Date</th>
-            <th className="px-4 py-3 text-left font-semibold">Day</th>
-            <th className="px-4 py-3 text-center font-semibold">{gameName} Result</th>
-            <th className="px-4 py-3 text-center font-semibold">Time</th>
+          <tr className="bg-[#1e293b] text-white">
+            <th className="px-3 md:px-4 py-3 text-left font-semibold">Date</th>
+            <th className="px-3 md:px-4 py-3 text-left font-semibold">Day</th>
+            <th className="px-3 md:px-4 py-3 text-center font-semibold">{gameName} Result</th>
           </tr>
         </thead>
         <tbody>
@@ -28,17 +27,17 @@ export function ChartTable({ records, gameName }: { records: ChartRecord[]; game
               key={record.date}
               className={idx % 2 === 0 ? "bg-gray-50" : "bg-white"}
             >
-              <td className="px-4 py-2.5 font-medium text-gray-700">
+              <td className="px-3 md:px-4 py-3 font-bold text-gray-800">
                 {record.date}
               </td>
-              <td className="px-4 py-2.5 text-gray-600">{record.day}</td>
-              <td className="px-4 py-2.5 text-center">
-                <span className="inline-block bg-emerald-100 text-emerald-800 font-mono font-bold px-3 py-1 rounded-lg text-base">
+              <td className="px-3 md:px-4 py-3">
+                <div className="font-bold text-gray-800">{record.day}</div>
+                <div className="text-xs font-semibold text-gray-400 mt-0.5">{record.resultTime}</div>
+              </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <span className="inline-block bg-emerald-100 text-emerald-800 font-mono font-extrabold px-4 py-1.5 rounded-lg text-lg">
                   {record.result}
                 </span>
-              </td>
-              <td className="px-4 py-2.5 text-center text-gray-500">
-                {record.resultTime}
               </td>
             </tr>
           ))}

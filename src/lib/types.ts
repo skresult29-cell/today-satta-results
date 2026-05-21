@@ -40,24 +40,3 @@ export interface GameChartData {
   results: { date: string; day: string; result: string }[];
   scrapedAt: number;
 }
-
-// ─── Redis Key Strategy ───
-// All keys prefixed with "satta:" for namespace isolation
-// Pattern: satta:{domain}:{identifier}
-
-export const REDIS_KEYS = {
-  homepage: "satta:homepage",
-  monthlyChart: (month: string, year: string) => `satta:chart:${month.toLowerCase()}:${year}`,
-  gameChart: (slug: string, month: string, year: string) => `satta:game:${slug}:${month}:${year}`,
-  lockPrefix: "satta:lock:",
-} as const;
-
-// ─── Cache TTLs (seconds) ───
-
-export const TTL = {
-  homepage: 120,       // 2 min — cron refreshes every 1 min, 2x buffer
-  monthlyChart: 600,   // 10 min — chart data changes once a day
-  gameChart: 600,      // 10 min
-  stale: 3600,         // 1 hour — serve stale data if scrape fails
-  lock: 30,            // 30 sec — dedup lock for concurrent scrapes
-} as const;

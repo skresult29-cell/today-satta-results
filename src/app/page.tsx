@@ -132,23 +132,23 @@ export default function HomePage() {
   return (
     <div ref={containerRef}>
       {/* Hero */}
-      <div className="bg-[#0d1b2a] text-white text-center py-8 px-4">
-        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-2">
+      <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-6 md:py-8 px-4">
+        <h1 className="text-xl md:text-4xl font-extrabold tracking-tight mb-1.5 md:mb-2">
           Today Satta King Result {format(new Date(), "yyyy")}
         </h1>
-        <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
           Superfast Live Satta Result of {format(new Date(), "do MMMM yyyy")} for
           Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar &amp; 100+ Games
         </p>
-        <div className="mt-4 inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-5 py-2 text-xs text-gray-300">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-live-pulse" />
+        <div className="mt-3 md:mt-4 inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs text-slate-300">
+          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-live-pulse" />
           Last Updated: {updatedAt}
         </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-[#1b2d45] border-b border-[#2a3f5f] py-2 px-4">
-        <p className="text-center text-xs text-gray-400 max-w-4xl mx-auto">
+      <div className="bg-[#1e293b] border-b border-slate-700 py-2 px-3 md:px-4">
+        <p className="text-center text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto">
           <span className="font-bold text-[#e63946]">DISCLAIMER:</span>{" "}
           TodaySattaResult.com is an independent informational website. We do not promote gambling or betting.{" "}
           <Link href="/disclaimer" className="text-[#d4a017] hover:underline font-medium">
@@ -174,9 +174,9 @@ export default function HomePage() {
                 title="LIVE Results"
                 subtitle="Games currently being declared"
                 icon={<FiZap size={18} />}
-                accentColor="text-[#e63946]"
-                headerBg="bg-[#e63946]"
-                badgeBg="bg-red-50 text-[#e63946]"
+                accentColor="text-[#dc2626]"
+                headerBg="bg-[#dc2626]"
+                badgeBg="bg-red-50 text-[#dc2626]"
                 games={liveResults}
                 isLive
               />
@@ -195,9 +195,9 @@ export default function HomePage() {
                 title="Upcoming Results"
                 subtitle="These games will be declared soon"
                 icon={<FiClock size={18} />}
-                accentColor="text-[#d4a017]"
-                headerBg="bg-[#d4a017]"
-                badgeBg="bg-amber-50 text-[#d4a017]"
+                accentColor="text-[#b45309]"
+                headerBg="bg-[#d97706]"
+                badgeBg="bg-amber-50 text-[#b45309]"
                 games={nextResults}
               />
             )}
@@ -208,9 +208,9 @@ export default function HomePage() {
                 title="Declared Results"
                 subtitle="Today's completed game results"
                 icon={<FiTrendingUp size={18} />}
-                accentColor="text-[#2d6a4f]"
-                headerBg="bg-[#2d6a4f]"
-                badgeBg="bg-emerald-50 text-[#2d6a4f]"
+                accentColor="text-[#059669]"
+                headerBg="bg-[#059669]"
+                badgeBg="bg-emerald-50 text-[#059669]"
                 games={restResults}
               />
             )}
@@ -256,32 +256,32 @@ function GameSection({
   return (
     <section className="sa opacity-0 translate-y-8">
       {/* Section Header */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`p-2 rounded-lg ${headerBg} text-white`}>
+      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
+        <div className={`p-2 rounded-lg ${headerBg} text-white shrink-0`}>
           {icon}
         </div>
-        <div>
-          <h2 className="text-lg font-extrabold text-[#0d1b2a] flex items-center gap-2">
+        <div className="min-w-0">
+          <h2 className="text-base md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
             {title}
             {isLive && <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />}
           </h2>
-          <p className="text-xs text-gray-500">{subtitle}</p>
+          <p className="text-[10px] md:text-xs text-gray-400">{subtitle}</p>
         </div>
-        <div className={`ml-auto px-3 py-1 rounded-full text-xs font-bold ${badgeBg}`}>
+        <div className={`ml-auto px-2.5 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold ${badgeBg} shrink-0`}>
           {games.length} Games
         </div>
       </div>
 
       {/* Results Table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <table className="w-full text-sm">
+        <table className="w-full">
           <thead>
-            <tr className={`${headerBg} text-white text-xs uppercase tracking-wider`}>
-              <th className="py-2.5 px-4 text-left font-semibold">Game Name</th>
-              <th className="py-2.5 px-3 text-center font-semibold">Time</th>
-              <th className="py-2.5 px-3 text-center font-semibold">Yesterday</th>
-              <th className="py-2.5 px-3 text-center font-semibold">Today</th>
-              <th className="py-2.5 px-3 text-center font-semibold">Chart</th>
+            <tr className={`${headerBg} text-white text-sm md:text-base uppercase tracking-wider`}>
+              <th className="py-3 px-3 md:px-4 text-left font-semibold">Game Name</th>
+              <th className="py-3 px-2 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
+              <th className="py-3 px-2 md:px-3 text-center font-semibold">Yesterday</th>
+              <th className="py-3 px-2 md:px-3 text-center font-semibold">Today</th>
+              <th className="py-3 px-2 md:px-3 text-center font-semibold">Chart</th>
             </tr>
           </thead>
           <tbody>
@@ -294,16 +294,21 @@ function GameSection({
                     i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                   }`}
                 >
-                  <td className="py-2.5 px-4 font-bold text-[#0d1b2a] uppercase text-sm">
-                    {game.name}
+                  <td className="py-3.5 px-3 md:px-4">
+                    <div className="font-extrabold text-[#1a1a2e] uppercase text-base md:text-lg leading-tight">
+                      {game.name}
+                    </div>
+                    <div className="text-xs md:hidden text-gray-400 font-medium mt-0.5">
+                      {game.time}
+                    </div>
                   </td>
-                  <td className="py-2.5 px-3 text-center text-gray-500 text-xs font-medium">
+                  <td className="py-3.5 px-2 md:px-3 text-center text-gray-500 text-sm font-medium hidden md:table-cell">
                     {game.time}
                   </td>
-                  <td className="py-2.5 px-3 text-center font-mono font-bold text-gray-600 text-base">
+                  <td className="py-3.5 px-2 md:px-3 text-center font-mono font-bold text-gray-600 text-lg md:text-xl">
                     {game.yesterday || "--"}
                   </td>
-                  <td className={`py-2.5 px-3 text-center font-mono font-extrabold text-lg ${accentColor}`}>
+                  <td className={`py-3.5 px-2 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${accentColor}`}>
                     {game.today || (isLive ? (
                       <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e63946]">
                         <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
@@ -311,10 +316,10 @@ function GameSection({
                       </span>
                     ) : "--")}
                   </td>
-                  <td className="py-2.5 px-3 text-center">
+                  <td className="py-3.5 px-2 md:px-3 text-center">
                     <Link
                       href={`/chart/${slug}`}
-                      className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+                      className="text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                     >
                       View
                     </Link>
@@ -362,20 +367,20 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 
   return (
     <div className="sa opacity-0 translate-y-8">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="p-2 rounded-lg bg-[#0d1b2a] text-white">
+      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
+        <div className="p-2 rounded-lg bg-[#1e293b] text-white shrink-0">
           <FiBarChart2 size={18} />
         </div>
-        <div>
-          <h2 className="text-lg font-extrabold text-[#0d1b2a]">Monthly Satta King Chart {displayYear}</h2>
-          <p className="text-xs text-gray-500">
-            {displayMonth} {displayYear} &mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar
+        <div className="min-w-0">
+          <h2 className="text-base md:text-lg font-extrabold text-[#1a1a2e]">Monthly Chart {displayYear}</h2>
+          <p className="text-[10px] md:text-xs text-gray-400 truncate">
+            {displayMonth} {displayYear} &mdash; Gali, Desawar, Ghaziabad, Faridabad &amp; more
           </p>
         </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <div className="bg-[#2d6a4f] text-white text-center py-2.5 text-sm font-bold">
+        <div className="bg-[#1e293b] text-white text-center py-2.5 text-xs md:text-sm font-bold px-3">
           Satta King Result Chart of {displayMonth} {displayYear} &mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar
         </div>
 
@@ -395,16 +400,16 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm md:text-base">
               <thead>
-                <tr className="bg-[#0d1b2a] text-white text-xs uppercase tracking-wider">
-                  <th className="py-2.5 px-3 text-[#e63946] font-bold">DATE</th>
-                  <th className="py-2.5 px-3 font-semibold">DSWR</th>
-                  <th className="py-2.5 px-3 font-semibold">FRBD</th>
-                  <th className="py-2.5 px-3 text-[#d4a017] font-semibold">GZBD</th>
-                  <th className="py-2.5 px-3 font-semibold">GALI</th>
-                  <th className="py-2.5 px-3 text-[#a78bfa] font-semibold">SRGN</th>
-                  <th className="py-2.5 px-3 text-[#60a5fa] font-semibold">DLBZ</th>
+                <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase tracking-wider">
+                  <th className="py-2.5 px-2 md:px-3 text-[#f87171] font-bold">DATE</th>
+                  <th className="py-2.5 px-2 md:px-3 font-semibold">DSWR</th>
+                  <th className="py-2.5 px-2 md:px-3 font-semibold">FRBD</th>
+                  <th className="py-2.5 px-2 md:px-3 text-[#fbbf24] font-semibold">GZBD</th>
+                  <th className="py-2.5 px-2 md:px-3 font-semibold">GALI</th>
+                  <th className="py-2.5 px-2 md:px-3 text-[#a78bfa] font-semibold">SRGN</th>
+                  <th className="py-2.5 px-2 md:px-3 text-[#60a5fa] font-semibold">DLBZ</th>
                 </tr>
               </thead>
               <tbody>
@@ -415,13 +420,13 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
                       i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                     }`}
                   >
-                    <td className="py-2 px-3 text-[#e63946] font-bold">{row.date}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-gray-700">{row.dswr}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-gray-700">{row.frbd}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-[#d4a017]">{row.gzbd}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-gray-700">{row.gali}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-purple-600">{row.srgn}</td>
-                    <td className="py-2 px-3 font-mono font-bold text-blue-600">{row.dlbz}</td>
+                    <td className="py-2.5 px-2 md:px-3 text-[#f87171] font-bold">{row.date}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.dswr}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.frbd}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-[#d97706]">{row.gzbd}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.gali}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-purple-500">{row.srgn}</td>
+                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-blue-500">{row.dlbz}</td>
                   </tr>
                 ))}
               </tbody>
@@ -434,14 +439,14 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
         <button
           onClick={() => fetchMonth(prevDate)}
           disabled={chartLoading}
-          className="bg-[#0d1b2a] text-white text-center py-3 rounded-xl text-sm font-bold hover:bg-[#1b2d45] transition-all disabled:opacity-50"
+          className="bg-[#1e293b] text-white text-center py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-bold hover:bg-[#334155] transition-all disabled:opacity-50"
         >
           &larr; {format(prevDate, "MMM yyyy")}
         </button>
         <button
           onClick={() => fetchMonth(nextDate)}
           disabled={chartLoading}
-          className="bg-[#0d1b2a] text-white text-center py-3 rounded-xl text-sm font-bold hover:bg-[#1b2d45] transition-all disabled:opacity-50"
+          className="bg-[#1e293b] text-white text-center py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-bold hover:bg-[#334155] transition-all disabled:opacity-50"
         >
           {format(nextDate, "MMM yyyy")} &rarr;
         </button>
