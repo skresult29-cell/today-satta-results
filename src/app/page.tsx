@@ -13,7 +13,7 @@ interface GameResult {
   time: string;
   yesterday: string;
   today: string;
-}
+} 
 
 interface ChartRow {
   date: string;
