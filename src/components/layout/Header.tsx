@@ -22,10 +22,10 @@ export function Header() {
 
   return (
     <header className="bg-[#0d1b2a] text-white shadow-xl sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
-          <Link href="/" className="flex items-center gap-1.5">
-            <span className="text-xl font-extrabold tracking-tight">
+      <div className="max-w-7xl mx-auto px-2 md:px-4">
+        <div className="flex items-center justify-between h-12 md:h-14">
+          <Link href="/" className="flex items-center gap-1.5 min-w-0">
+            <span className="text-base md:text-xl font-extrabold tracking-tight truncate">
               TODAY<span className="text-[#e63946]">SATTA</span><span className="text-[#d4a017]">RESULT</span>
             </span>
           </Link>
@@ -89,8 +89,8 @@ export function Header() {
       </div>
 
       {/* Marquee */}
-      <div className="bg-[#e63946] text-white py-1 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap text-xs font-bold">
+      <div className="bg-[#e63946] text-white py-1 overflow-hidden w-full">
+        <div className="animate-marquee whitespace-nowrap text-[10px] md:text-xs font-bold">
           Welcome to TodaySattaResult.com &mdash; Superfast Live Satta King Results &bull; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar &bull; 100+ Games &bull; Free Monthly Chart Records 2015-2026 &bull; Updated Every Minute
         </div>
       </div>

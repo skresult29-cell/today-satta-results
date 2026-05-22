@@ -132,23 +132,23 @@ export default function HomePage() {
   return (
     <div ref={containerRef}>
       {/* Hero */}
-      <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-6 md:py-8 px-4">
-        <h1 className="text-xl md:text-4xl font-extrabold tracking-tight mb-1.5 md:mb-2">
+      <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
+        <h1 className="text-lg sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
           Today Satta King Result {format(new Date(), "yyyy")}
         </h1>
-        <p className="text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-[11px] sm:text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
           Superfast Live Satta Result of {format(new Date(), "do MMMM yyyy")} for
           Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar &amp; 100+ Games
         </p>
-        <div className="mt-3 md:mt-4 inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs text-slate-300">
-          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-live-pulse" />
+        <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs text-slate-300">
+          <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
           Last Updated: {updatedAt}
         </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-[#1e293b] border-b border-slate-700 py-2 px-3 md:px-4">
-        <p className="text-center text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto">
+      <div className="bg-[#1e293b] border-b border-slate-700 py-1.5 md:py-2 px-2 md:px-4">
+        <p className="text-center text-[9px] sm:text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto leading-relaxed">
           <span className="font-bold text-[#e63946]">DISCLAIMER:</span>{" "}
           TodaySattaResult.com is an independent informational website. We do not promote gambling or betting.{" "}
           <Link href="/disclaimer" className="text-[#d4a017] hover:underline font-medium">
@@ -157,7 +157,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-3 md:px-6 py-6 space-y-8">
+      <div className="max-w-[1400px] mx-auto px-2 sm:px-3 md:px-6 py-4 md:py-6 space-y-6 md:space-y-8">
         <AdSlot placement="homepage_top" />
 
         {loading ? (
@@ -218,9 +218,9 @@ export default function HomePage() {
         )}
 
         {/* CTA */}
-        <div className="sa opacity-0 translate-y-8 bg-[#0d1b2a] rounded-xl p-6 text-center border border-white/10">
-          <p className="text-lg font-extrabold text-white">ADVERTISE YOUR GAME HERE</p>
-          <p className="text-sm text-gray-400 mt-1">Contact us to feature your game on TodaySattaResult.com</p>
+        <div className="sa opacity-0 translate-y-8 bg-[#0d1b2a] rounded-xl p-4 md:p-6 text-center border border-white/10">
+          <p className="text-sm md:text-lg font-extrabold text-white">ADVERTISE YOUR GAME HERE</p>
+          <p className="text-xs md:text-sm text-gray-400 mt-1">Contact us to feature your game on TodaySattaResult.com</p>
         </div>
 
         <AdSlot placement="homepage_bottom" />
@@ -274,14 +274,14 @@ function GameSection({
 
       {/* Results Table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <table className="w-full">
+        <table className="w-full table-fixed">
           <thead>
-            <tr className={`${headerBg} text-white text-sm md:text-base uppercase tracking-wider`}>
-              <th className="py-3 px-3 md:px-4 text-left font-semibold">Game Name</th>
-              <th className="py-3 px-2 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
-              <th className="py-3 px-2 md:px-3 text-center font-semibold">Yesterday</th>
-              <th className="py-3 px-2 md:px-3 text-center font-semibold">Today</th>
-              <th className="py-3 px-2 md:px-3 text-center font-semibold">Chart</th>
+            <tr className={`${headerBg} text-white text-[10px] md:text-base uppercase tracking-wider`}>
+              <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[22%] md:w-auto">Today</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[18%] md:w-auto">Chart</th>
             </tr>
           </thead>
           <tbody>
@@ -294,32 +294,32 @@ function GameSection({
                     i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                   }`}
                 >
-                  <td className="py-3.5 px-3 md:px-4">
-                    <div className="font-extrabold text-[#1a1a2e] uppercase text-base md:text-lg leading-tight">
+                  <td className="py-2 px-1.5 md:px-4">
+                    <div className="font-extrabold text-[#1a1a2e] uppercase text-xs md:text-lg leading-tight truncate">
                       {game.name}
                     </div>
-                    <div className="text-xs md:hidden text-gray-400 font-medium mt-0.5">
+                    <div className="text-[9px] md:hidden text-gray-400 font-medium mt-0.5">
                       {game.time}
                     </div>
                   </td>
-                  <td className="py-3.5 px-2 md:px-3 text-center text-gray-500 text-sm font-medium hidden md:table-cell">
+                  <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-sm font-medium hidden md:table-cell">
                     {game.time}
                   </td>
-                  <td className="py-3.5 px-2 md:px-3 text-center font-mono font-bold text-gray-600 text-lg md:text-xl">
+                  <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-sm md:text-xl">
                     {game.yesterday || "--"}
                   </td>
-                  <td className={`py-3.5 px-2 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${accentColor}`}>
+                  <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-base md:text-2xl ${accentColor}`}>
                     {game.today || (isLive ? (
-                      <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e63946]">
+                      <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#e63946]">
                         <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
                         WAIT
                       </span>
                     ) : "--")}
                   </td>
-                  <td className="py-3.5 px-2 md:px-3 text-center">
+                  <td className="py-2 px-1 md:px-3 text-center">
                     <Link
                       href={`/chart/${slug}`}
-                      className="text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                      className="text-[10px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                     >
                       View
                     </Link>
@@ -380,8 +380,8 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <div className="bg-[#1e293b] text-white text-center py-2.5 text-xs md:text-sm font-bold px-3">
-          Satta King Result Chart of {displayMonth} {displayYear} &mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar
+        <div className="bg-[#1e293b] text-white text-center py-2 md:py-2.5 text-[10px] md:text-sm font-bold px-2 md:px-3 leading-relaxed">
+          Satta King Chart {displayMonth} {displayYear} <span className="hidden sm:inline">&mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar</span>
         </div>
 
         {chartLoading ? (
@@ -399,17 +399,17 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
             ))}
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm md:text-base">
+          <div className="overflow-hidden">
+            <table className="w-full table-fixed text-[10px] sm:text-xs md:text-base">
               <thead>
-                <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase tracking-wider">
-                  <th className="py-2.5 px-2 md:px-3 text-[#f87171] font-bold">DATE</th>
-                  <th className="py-2.5 px-2 md:px-3 font-semibold">DSWR</th>
-                  <th className="py-2.5 px-2 md:px-3 font-semibold">FRBD</th>
-                  <th className="py-2.5 px-2 md:px-3 text-[#fbbf24] font-semibold">GZBD</th>
-                  <th className="py-2.5 px-2 md:px-3 font-semibold">GALI</th>
-                  <th className="py-2.5 px-2 md:px-3 text-[#a78bfa] font-semibold">SRGN</th>
-                  <th className="py-2.5 px-2 md:px-3 text-[#60a5fa] font-semibold">DLBZ</th>
+                <tr className="bg-[#0f172a] text-white text-[9px] sm:text-[10px] md:text-sm uppercase tracking-wider">
+                  <th className="py-2 px-0.5 md:px-3 text-[#f87171] font-bold">DATE</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold">DSWR</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold">FRBD</th>
+                  <th className="py-2 px-0.5 md:px-3 text-[#fbbf24] font-semibold">GZBD</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold">GALI</th>
+                  <th className="py-2 px-0.5 md:px-3 text-[#a78bfa] font-semibold">SRGN</th>
+                  <th className="py-2 px-0.5 md:px-3 text-[#60a5fa] font-semibold">DLBZ</th>
                 </tr>
               </thead>
               <tbody>
@@ -420,13 +420,13 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
                       i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                     }`}
                   >
-                    <td className="py-2.5 px-2 md:px-3 text-[#f87171] font-bold">{row.date}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.dswr}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.frbd}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-[#d97706]">{row.gzbd}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-gray-700">{row.gali}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-purple-500">{row.srgn}</td>
-                    <td className="py-2.5 px-2 md:px-3 font-mono font-bold text-blue-500">{row.dlbz}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 text-[#f87171] font-bold">{row.date}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.dswr}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.frbd}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-[#d97706]">{row.gzbd}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.gali}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-purple-500">{row.srgn}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-blue-500">{row.dlbz}</td>
                   </tr>
                 ))}
               </tbody>
@@ -459,8 +459,8 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 
 function SeoContent() {
   return (
-    <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-6 md:p-8 space-y-5 text-sm text-gray-600 leading-relaxed shadow-sm">
-      <h2 className="text-xl font-extrabold text-[#0d1b2a]">
+    <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-4 md:p-8 space-y-4 md:space-y-5 text-xs md:text-sm text-gray-600 leading-relaxed shadow-sm">
+      <h2 className="text-base md:text-xl font-extrabold text-[#0d1b2a]">
         Today Satta Result &mdash; Live Satta King Result {new Date().getFullYear()}
       </h2>
       <p>

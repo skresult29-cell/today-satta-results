@@ -117,16 +117,16 @@ export default function GameChartPage({
       </div>
 
       {/* Chart Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
         {loading ? (
           <div className="text-center py-12 text-gray-400">Loading chart...</div>
         ) : rows.length > 0 ? (
-          <table className="w-full text-base">
+          <table className="w-full text-sm md:text-base">
             <thead>
               <tr className="bg-[#1e293b] text-white">
-                <th className="py-3 px-3 md:px-4 text-left font-semibold">Date</th>
-                <th className="py-3 px-3 md:px-4 text-left font-semibold">Day</th>
-                <th className="py-3 px-3 md:px-4 text-center font-semibold">{gameName} Result</th>
+                <th className="py-2.5 px-2 md:px-4 text-left font-semibold">Date</th>
+                <th className="py-2.5 px-2 md:px-4 text-left font-semibold">Day</th>
+                <th className="py-2.5 px-2 md:px-4 text-center font-semibold">{gameName} Result</th>
               </tr>
             </thead>
             <tbody>
