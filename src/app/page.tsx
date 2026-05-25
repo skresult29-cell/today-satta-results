@@ -276,7 +276,7 @@ function GameSection({
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <table className="w-full table-fixed">
           <thead>
-            <tr className={`${headerBg} text-white text-[16px] md:text-base uppercase tracking-wider`}>
+            <tr className={`${headerBg} text-white text-[14px] md:text-base uppercase tracking-wider`}>
               <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
@@ -295,7 +295,8 @@ function GameSection({
                   }`}
                 >
                   <td className="py-2 px-1.5 md:px-4">
-                    <div className="font-extrabold text-[#1a1a2e] uppercase text-xl md:text-lg leading-tight truncate">
+                    <div className="font-extrabold text-[#1a1a2e] uppercase text-lg
+                     md:text-lg leading-tight truncate">
                       {game.name}
                     </div>
                     <div className="text-[16px] md:hidden text-gray-400 font-medium mt-0.5">
@@ -319,7 +320,7 @@ function GameSection({
                   <td className="py-2 px-1 md:px-3 text-center">
                     <Link
                       href={`/chart/${slug}`}
-                      className="text-[20px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                      className="text-[14px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                     >
                       View
                     </Link>
