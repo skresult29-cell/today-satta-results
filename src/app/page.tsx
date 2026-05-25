@@ -133,14 +133,14 @@ export default function HomePage() {
     <div ref={containerRef}>
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
-        <h1 className="text-lg sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
+        <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
           Today Satta King Result {format(new Date(), "yyyy")}
         </h1>
-        <p className="text-[11px] sm:text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-[16px] sm:text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
           Superfast Live Satta Result of {format(new Date(), "do MMMM yyyy")} for
           Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar &amp; 100+ Games
         </p>
-        <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[10px] md:text-xs text-slate-300">
+        <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[14px] md:text-xs text-slate-300">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
           Last Updated: {updatedAt}
         </div>
@@ -148,7 +148,7 @@ export default function HomePage() {
 
       {/* Disclaimer */}
       <div className="bg-[#1e293b] border-b border-slate-700 py-1.5 md:py-2 px-2 md:px-4">
-        <p className="text-center text-[9px] sm:text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto leading-relaxed">
+        <p className="text-center text-[12px] sm:text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto leading-relaxed">
           <span className="font-bold text-[#e63946]">DISCLAIMER:</span>{" "}
           TodaySattaResult.com is an independent informational website. We do not promote gambling or betting.{" "}
           <Link href="/disclaimer" className="text-[#d4a017] hover:underline font-medium">
@@ -261,13 +261,13 @@ function GameSection({
           {icon}
         </div>
         <div className="min-w-0">
-          <h2 className="text-base md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
+          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
             {title}
             {isLive && <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />}
           </h2>
-          <p className="text-[10px] md:text-xs text-gray-400">{subtitle}</p>
+          <p className="text-[14px] md:text-xs text-gray-400">{subtitle}</p>
         </div>
-        <div className={`ml-auto px-2.5 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold ${badgeBg} shrink-0`}>
+        <div className={`ml-auto px-2.5 md:px-3 py-1 rounded-full text-[16spx] md:text-xs font-bold ${badgeBg} shrink-0`}>
           {games.length} Games
         </div>
       </div>
@@ -276,7 +276,7 @@ function GameSection({
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <table className="w-full table-fixed">
           <thead>
-            <tr className={`${headerBg} text-white text-[10px] md:text-base uppercase tracking-wider`}>
+            <tr className={`${headerBg} text-white text-[16px] md:text-base uppercase tracking-wider`}>
               <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
@@ -295,20 +295,20 @@ function GameSection({
                   }`}
                 >
                   <td className="py-2 px-1.5 md:px-4">
-                    <div className="font-extrabold text-[#1a1a2e] uppercase text-xs md:text-lg leading-tight truncate">
+                    <div className="font-extrabold text-[#1a1a2e] uppercase text-xl md:text-lg leading-tight truncate">
                       {game.name}
                     </div>
-                    <div className="text-[9px] md:hidden text-gray-400 font-medium mt-0.5">
+                    <div className="text-[16px] md:hidden text-gray-400 font-medium mt-0.5">
                       {game.time}
                     </div>
                   </td>
-                  <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-sm font-medium hidden md:table-cell">
+                  <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
                     {game.time}
                   </td>
-                  <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-sm md:text-xl">
+                  <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-xl">
                     {game.yesterday || "--"}
                   </td>
-                  <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-base md:text-2xl ${accentColor}`}>
+                  <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${accentColor}`}>
                     {game.today || (isLive ? (
                       <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#e63946]">
                         <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
@@ -319,7 +319,7 @@ function GameSection({
                   <td className="py-2 px-1 md:px-3 text-center">
                     <Link
                       href={`/chart/${slug}`}
-                      className="text-[10px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                      className="text-[20px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                     >
                       View
                     </Link>
@@ -372,15 +372,15 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
           <FiBarChart2 size={18} />
         </div>
         <div className="min-w-0">
-          <h2 className="text-base md:text-lg font-extrabold text-[#1a1a2e]">Monthly Chart {displayYear}</h2>
-          <p className="text-[10px] md:text-xs text-gray-400 truncate">
+          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e]">Monthly Chart {displayYear}</h2>
+          <p className="text-[14px] md:text-xs text-gray-400 truncate">
             {displayMonth} {displayYear} &mdash; Gali, Desawar, Ghaziabad, Faridabad &amp; more
           </p>
         </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <div className="bg-[#1e293b] text-white text-center py-2 md:py-2.5 text-[10px] md:text-sm font-bold px-2 md:px-3 leading-relaxed">
+        <div className="bg-[#1e293b] text-white text-center py-2 md:py-2.5 text-[14px] md:text-sm font-bold px-2 md:px-3 leading-relaxed">
           Satta King Chart {displayMonth} {displayYear} <span className="hidden sm:inline">&mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar</span>
         </div>
 
@@ -400,9 +400,9 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
           </div>
         ) : (
           <div className="overflow-hidden">
-            <table className="w-full table-fixed text-[10px] sm:text-xs md:text-base">
+            <table className="w-full table-fixed text-[18px] sm:text-xs md:text-base">
               <thead>
-                <tr className="bg-[#0f172a] text-white text-[9px] sm:text-[10px] md:text-sm uppercase tracking-wider">
+                <tr className="bg-[#0f172a] text-white text-[9px] text-[14px] md:text-sm uppercase tracking-wider">
                   <th className="py-2 px-0.5 md:px-3 text-[#f87171] font-bold">DATE</th>
                   <th className="py-2 px-0.5 md:px-3 font-semibold">DSWR</th>
                   <th className="py-2 px-0.5 md:px-3 font-semibold">FRBD</th>
@@ -460,7 +460,7 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 function SeoContent() {
   return (
     <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-4 md:p-8 space-y-4 md:space-y-5 text-xs md:text-sm text-gray-600 leading-relaxed shadow-sm">
-      <h2 className="text-base md:text-xl font-extrabold text-[#0d1b2a]">
+      <h2 className="text-xl md:text-xl font-extrabold text-[#0d1b2a]">
         Today Satta Result &mdash; Live Satta King Result {new Date().getFullYear()}
       </h2>
       <p>
@@ -472,7 +472,7 @@ function SeoContent() {
         everything right here &mdash; updated every minute, completely free.
       </p>
 
-      <h3 className="text-lg font-bold text-[#0d1b2a]">What is Satta King?</h3>
+      <h3 className="text-xl font-bold text-[#0d1b2a]">What is Satta King?</h3>
       <p>
         <strong>Satta King</strong> is one of the most popular number-based games in India. Players choose a number
         and wait for the official result to be declared at a fixed time. There are hundreds of Satta King games
@@ -483,7 +483,7 @@ function SeoContent() {
         informational purposes.
       </p>
 
-      <h3 className="text-lg font-bold text-[#0d1b2a]">Why Choose TodaySattaResult.com?</h3>
+      <h3 className="text-xl font-bold text-[#0d1b2a]">Why Choose TodaySattaResult.com?</h3>
       <ul className="list-none space-y-2 pl-0">
         <li className="flex items-start gap-2">
           <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
@@ -511,7 +511,7 @@ function SeoContent() {
         </li>
       </ul>
 
-      <h3 className="text-lg font-bold text-[#0d1b2a]">Satta King Result Time Table {new Date().getFullYear()}</h3>
+      <h3 className="text-xl font-bold text-[#0d1b2a]">Satta King Result Time Table {new Date().getFullYear()}</h3>
       <p>
         The four most popular <strong>Satta King games</strong> and their official result times are:
         <strong> Desawar</strong> (05:00 AM), <strong>Faridabad</strong> (06:00 PM),
@@ -523,7 +523,7 @@ function SeoContent() {
         and many more. All results are available on TodaySattaResult.com as soon as they are declared.
       </p>
 
-      <h3 className="text-lg font-bold text-[#0d1b2a]">Monthly Satta King Chart {new Date().getFullYear()}</h3>
+      <h3 className="text-xl font-bold text-[#0d1b2a]">Monthly Satta King Chart {new Date().getFullYear()}</h3>
       <p>
         View complete <strong>monthly Satta King result charts</strong> for Gali, Desawar, Ghaziabad, Faridabad,
         Shri Ganesh, and Delhi Bazar. Our chart records are available from <strong>2015 to {new Date().getFullYear()}</strong> and
