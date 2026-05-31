@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { AdSlot } from "@/components/layout/AdSlot";
 import Link from "next/link";
 import { format } from "date-fns";
-import { FiClock, FiTrendingUp, FiBarChart2, FiZap } from "react-icons/fi";
+import { FiClock, FiTrendingUp, FiBarChart2, FiZap, FiPhone } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 // ─── Types ───
 
@@ -194,6 +195,9 @@ export default function HomePage() {
             {sk24Games.length > 0 && (
               <SK24ResultsSection games={sk24Games} />
             )}
+
+            {/* Game Schedule & Contact */}
+            <GameScheduleSection />
 
             {/* LIVE Section */}
             {filteredLive.length > 0 && (
@@ -622,6 +626,143 @@ function SK24ChartsSection({ tables }: { tables: SK24ChartTable[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+// ─── Game Schedule & Contact Section ───
+
+function GameScheduleSection() {
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "911234567890";
+
+  const gameSchedule = [
+    { name: "शिवधाम", time: "01:20 PM" },
+    { name: "पुष्कर बाजार", time: "02:20 PM" },
+    { name: "दिल्ली मेट्रो", time: "03:00 PM" },
+    { name: "श्री श्याम", time: "04:10 PM" },
+    { name: "कोलंबिया", time: "05:00 PM" },
+    { name: "फरीदाबाद", time: "05:50 PM" },
+    { name: "मक्का मदीना", time: "07:20 PM" },
+    { name: "गाज़ियाबाद", time: "08:20 PM" },
+    { name: "कालका नाइट", time: "09:50 PM" },
+    { name: "गली", time: "11:20 PM" },
+    { name: "दिसावर", time: "03:20 AM" },
+  ];
+
+  return (
+    <section className="sa opacity-0 translate-y-8">
+      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
+        <div className="p-2 rounded-lg bg-[#d97706] text-white shrink-0">
+          <FiPhone size={18} />
+        </div>
+        <div className="min-w-0">
+          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e]">
+            Game Schedule & Contact
+          </h2>
+          <p className="text-[14px] md:text-xs text-gray-400">
+            Game play करने के लिये संपर्क करे
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] rounded-xl border border-slate-700 overflow-hidden shadow-lg">
+        {/* Header */}
+        <div className="text-center py-5 px-4 bg-gradient-to-r from-[#d4a017]/20 via-[#d4a017]/10 to-[#d4a017]/20 border-b border-[#d4a017]/30">
+          <p className="text-white font-bold text-base md:text-lg italic">
+            बिंदास गेम प्ले कर सकते हो आप बिना किसी टेंशन के
+          </p>
+          <p className="text-[#d4a017] font-extrabold text-2xl md:text-3xl mt-2 tracking-wide">
+            VP BHAI
+          </p>
+        </div>
+
+        {/* Game Schedule List */}
+        <div className="py-5 px-2 md:px-6">
+          <div className="max-w-md mx-auto space-y-0">
+            {gameSchedule.map((game, i) => (
+              <div
+                key={i}
+                className={`flex items-center py-2.5 px-3 ${i % 2 === 0 ? "bg-white/[0.03]" : ""} rounded-md`}
+              >
+                <span className="text-[#d4a017] text-lg mr-2">&#9200;</span>
+                <span className="text-white font-extrabold text-base md:text-lg">
+                  {game.name}
+                </span>
+                <span className="flex-1 mx-2 border-b border-dotted border-slate-500" />
+                <span className="text-[#d4a017] font-mono text-base md:text-lg font-bold">
+                  {game.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Payment Section */}
+        <div className="border-t border-slate-600 px-4 md:px-8 py-5 text-center space-y-3 bg-white/[0.02]">
+          <p className="text-[#d4a017] font-extrabold text-lg md:text-xl">
+            Payment Option
+          </p>
+          <p className="text-slate-300 text-sm md:text-base font-semibold tracking-wide">
+            PAYTM // BANK TRANSFER // PHONE PAY // GOOGLE PAY
+          </p>
+          <p className="text-slate-400 text-sm">
+            =&gt; <span className="text-white font-bold">{phone}</span>
+          </p>
+        </div>
+
+        {/* Phone Number Highlight */}
+        <div className="px-4 py-4 text-center">
+          <div className="max-w-sm mx-auto border-t-2 border-b-2 border-[#d4a017] py-3">
+            <a
+              href={`tel:+${phone.replace(/[^0-9]/g, "")}`}
+              className="text-[#d4a017] font-extrabold text-2xl md:text-3xl tracking-widest hover:text-[#e8b82a] transition-colors"
+            >
+              {phone}
+            </a>
+          </div>
+        </div>
+
+        {/* Rate List */}
+        <div className="border-t border-slate-600 px-4 md:px-8 py-5 text-center space-y-4 bg-white/[0.02]">
+          <p className="text-[#d4a017] font-extrabold text-lg md:text-xl">
+            Rate List
+          </p>
+          <div className="max-w-sm mx-auto grid grid-cols-2 gap-3">
+            <div className="bg-gradient-to-br from-[#d4a017]/15 to-[#d4a017]/5 border border-[#d4a017]/30 rounded-xl px-4 py-3 text-center">
+              <p className="text-white font-extrabold text-base">जोड़ी रेट</p>
+              <p className="text-[#d4a017] font-extrabold text-xl mt-1">10 — 960</p>
+            </div>
+            <div className="bg-gradient-to-br from-[#d4a017]/15 to-[#d4a017]/5 border border-[#d4a017]/30 rounded-xl px-4 py-3 text-center">
+              <p className="text-white font-extrabold text-base">हरूफ रेट</p>
+              <p className="text-[#d4a017] font-extrabold text-xl mt-1">100 — 960</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Name */}
+        <div className="px-4 py-4 text-center">
+          <p className="text-[#d4a017] font-extrabold text-2xl tracking-wide">VP BHAI</p>
+        </div>
+
+        {/* WhatsApp CTA */}
+        <div className="border-t border-slate-600 px-4 py-5 text-center space-y-4 bg-gradient-to-t from-[#25D366]/10 to-transparent">
+          <p className="text-white font-bold text-base md:text-lg">
+            Game play करने के लिये नीचे लिंक पर क्लिक करे
+          </p>
+          <a
+            href={`https://wa.me/${phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("VP BHAI")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1fb855] text-white font-extrabold text-lg md:text-xl px-8 py-3.5 rounded-full shadow-lg shadow-green-500/20 transition-all hover:scale-105 hover:shadow-green-400/40 hover:shadow-xl"
+          >
+            <FaWhatsapp className="w-7 h-7 md:w-8 md:h-8" />
+            <div className="text-left">
+              <div className="text-lg md:text-xl font-extrabold leading-tight">WhatsApp</div>
+              <div className="text-xs font-semibold opacity-90">Click to chat</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
