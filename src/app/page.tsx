@@ -318,11 +318,11 @@ function GameSection({
         <table className="w-full table-fixed">
           <thead>
             <tr className={`${headerBg} text-white text-[14px] md:text-base uppercase tracking-wider`}>
-              <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
+              <th className="py-2 px-1 md:px-4 text-left font-semibold w-[38%] md:w-auto">Game</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[22%] md:w-auto">Today</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[18%] md:w-auto">Chart</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Yest.</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Today</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[13%] md:w-auto">Chart</th>
             </tr>
           </thead>
           <tbody>
@@ -335,22 +335,22 @@ function GameSection({
                     i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                   }`}
                 >
-                  <td className="py-2 px-1.5 md:px-4">
-                    <div className="font-extrabold text-[#1a1a2e] uppercase text-lg
-                     md:text-lg leading-tight truncate">
+                  <td className="py-2 px-1 md:px-4">
+                    <div className="font-extrabold text-[#1a1a2e] uppercase text-[14px]
+                     md:text-lg leading-tight break-words">
                       {game.name}
                     </div>
-                    <div className="text-[16px] md:hidden text-gray-400 font-medium mt-0.5">
+                    <div className="text-[12px] md:hidden text-gray-400 font-medium mt-0.5">
                       {game.time}
                     </div>
                   </td>
                   <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
                     {game.time}
                   </td>
-                  <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-xl">
+                  <td className="py-2 px-0.5 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-2xl">
                     {game.yesterday || "--"}
                   </td>
-                  <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${accentColor}`}>
+                  <td className={`py-2 px-0.5 md:px-3 text-center font-mono font-extrabold text-xl md:text-3xl ${accentColor}`}>
                     {game.today || (isLive ? (
                       <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#e63946]">
                         <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
@@ -358,10 +358,10 @@ function GameSection({
                       </span>
                     ) : "--")}
                   </td>
-                  <td className="py-2 px-1 md:px-3 text-center">
+                  <td className="py-2 px-0.5 md:px-3 text-center">
                     <Link
                       href={`/chart/${slug}`}
-                      className="text-[14px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                      className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                     >
                       View
                     </Link>
@@ -524,11 +524,11 @@ function SK24ResultsSection({ games }: { games: SK24Game[] }) {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-[#1e40af] text-white text-[14px] md:text-base uppercase tracking-wider">
-              <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
+              <th className="py-2 px-1 md:px-4 text-left font-semibold w-[38%] md:w-auto">Game</th>
               <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[22%] md:w-auto">Today</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[18%] md:w-auto">Chart</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Yest.</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Today</th>
+              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[13%] md:w-auto">Chart</th>
             </tr>
           </thead>
           <tbody>
@@ -541,29 +541,29 @@ function SK24ResultsSection({ games }: { games: SK24Game[] }) {
                   i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                 }`}
               >
-                <td className="py-2 px-1.5 md:px-4">
-                  <div className="font-extrabold text-[#1a1a2e] uppercase text-lg md:text-lg leading-tight truncate">
+                <td className="py-2 px-1 md:px-4">
+                  <div className="font-extrabold text-[#1a1a2e] uppercase text-[14px] md:text-lg leading-tight break-words">
                     {game.name}
                   </div>
-                  <div className="text-[16px] md:hidden text-gray-400 font-medium mt-0.5">
+                  <div className="text-[12px] md:hidden text-gray-400 font-medium mt-0.5">
                     {game.time}
                   </div>
                 </td>
                 <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
                   {game.time}
                 </td>
-                <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-xl">
+                <td className="py-2 px-0.5 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-2xl">
                   {game.yesterday || "--"}
                 </td>
-                <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${
+                <td className={`py-2 px-0.5 md:px-3 text-center font-mono font-extrabold text-xl md:text-3xl ${
                   game.today === "XX" ? "text-[#dc2626]" : "text-[#1e40af]"
                 }`}>
                   {game.today || "--"}
                 </td>
-                <td className="py-2 px-1 md:px-3 text-center">
+                <td className="py-2 px-0.5 md:px-3 text-center">
                   <Link
                     href={`/chart/${slug}`}
-                    className="text-[14px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                    className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
                   >
                     View
                   </Link>
