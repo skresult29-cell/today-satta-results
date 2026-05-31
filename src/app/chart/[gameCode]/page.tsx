@@ -73,6 +73,17 @@ export default function GameChartPage({
             }
           }
         }
+        // Fallback: check SK24 games
+        const sk24Res = await fetch("/api/sattaking24");
+        const sk24Data = await sk24Res.json();
+        if (sk24Data.success) {
+          const found = sk24Data.games?.find(
+            (g: { name: string }) => g.name.toLowerCase().replace(/\s+/g, "-") === gameCode
+          );
+          if (found) {
+            setResultTime(found.time);
+          }
+        }
       } catch { /* ignore */ }
     };
     findTime();

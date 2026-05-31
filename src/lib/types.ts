@@ -40,3 +40,26 @@ export interface GameChartData {
   results: { date: string; day: string; result: string }[];
   scrapedAt: number;
 }
+
+export interface SK24Game {
+  name: string;
+  time: string;
+  yesterday: string;
+  today: string;
+}
+
+export interface SK24GamesData {
+  games: SK24Game[];
+  scrapedAt: number;
+}
+
+export interface SK24ChartTable {
+  title: string;
+  headers: string[];
+  rows: string[][];
+}
+
+export interface SK24ChartsData {
+  tables: SK24ChartTable[];
+  scrapedAt: number;
+}

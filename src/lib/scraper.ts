@@ -214,3 +214,93 @@ export async function scrapeGameChart(slug: string, month?: string, year?: strin
     results,
   };
 }
+
+// ─── SK24 Game Chart Scraper ───
+// Fallback scraper for games only available on satta-king-24.com
+
+export async function scrapeSK24GameChart(slug: string, month?: string, year?: string) {
+  const { data: html } = await axios.get("https://www.satta-king-24.com/chart", {
+    headers: HEADERS,
+    timeout: TIMEOUT,
+  });
+
+  const $ = cheerio.load(html);
+  const gameNameUpper = slug.replace(/-/g, " ").toUpperCase();
+
+  // Find the game column across all tables
+  let foundHeaders: string[] = [];
+  let foundRows: string[][] = [];
+  let gameColIndex = -1;
+  let chartTitle = "";
+
+  $("table.newtable").each((_, table) => {
+    if (gameColIndex >= 0) return; // already found
+
+    const headers: string[] = [];
+    $(table).find("tr").eq(1).find("th").each((_, th) => {
+      headers.push($(th).text().trim());
+    });
+
+    // Check if this table has our game
+    const idx = headers.findIndex(
+      (h) => h.toLowerCase().replace(/\s+/g, "-") === slug || h.toUpperCase() === gameNameUpper
+    );
+
+    if (idx >= 0) {
+      gameColIndex = idx;
+      foundHeaders = headers;
+      chartTitle = $(table).find("tr").first().text().trim().replace(/\s+/g, " ");
+
+      $(table).find("tbody tr").each((_, tr) => {
+        const cells: string[] = [];
+        $(tr).find("td").each((_, td) => {
+          cells.push($(td).text().trim());
+        });
+        if (cells.length > 0) foundRows.push(cells);
+      });
+    }
+  });
+
+  if (gameColIndex < 0) return null;
+
+  // Build results array (date + day + result)
+  const now = new Date();
+  const targetMonth = month ? month.charAt(0).toUpperCase() + month.slice(1).toLowerCase() : now.toLocaleDateString("en-US", { month: "long" });
+  const targetYear = year || String(now.getFullYear());
+
+  const results: { date: string; day: string; result: string }[] = [];
+
+  foundRows.forEach((cells) => {
+    const dateStr = cells[0] || "";
+    // dateStr format is like "01-05" (dd-mm)
+    const dateParts = dateStr.split("-");
+    const dayNum = dateParts[0] || dateStr;
+    const gameResult = cells[gameColIndex] || "XX";
+
+    let dayName = "";
+    if (dateParts.length === 2) {
+      try {
+        const monthNum = parseInt(dateParts[1], 10) - 1;
+        const dayNumInt = parseInt(dateParts[0], 10);
+        const yearInt = parseInt(targetYear, 10);
+        const d = new Date(yearInt, monthNum, dayNumInt);
+        dayName = d.toLocaleDateString("en-US", { weekday: "long" });
+      } catch { /* skip */ }
+    }
+
+    results.push({
+      date: dayNum,
+      day: dayName,
+      result: gameResult || "XX",
+    });
+  });
+
+  return {
+    gameName: gameNameUpper,
+    chartTitle,
+    month: targetMonth,
+    year: targetYear,
+    columns: foundHeaders,
+    results,
+  };
+}

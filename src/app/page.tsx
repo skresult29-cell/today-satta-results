@@ -15,6 +15,19 @@ interface GameResult {
   today: string;
 } 
 
+interface SK24Game {
+  name: string;
+  time: string;
+  yesterday: string;
+  today: string;
+}
+
+interface SK24ChartTable {
+  title: string;
+  headers: string[];
+  rows: string[][];
+}
+
 interface ChartRow {
   date: string;
   frbd: string;
@@ -102,6 +115,8 @@ export default function HomePage() {
   const [nextResults, setNextResults] = useState<GameResult[]>([]);
   const [restResults, setRestResults] = useState<GameResult[]>([]);
   const [chartData, setChartData] = useState<{ month: string; year: string; results: ChartRow[] }>({ month: "", year: "", results: [] });
+  const [sk24Games, setSk24Games] = useState<SK24Game[]>([]);
+  const [sk24Charts, setSk24Charts] = useState<SK24ChartTable[]>([]);
   const [loading, setLoading] = useState(true);
   const containerRef = useScrollAnimation([loading]);
 
@@ -118,16 +133,27 @@ export default function HomePage() {
       safeFetch("/api/next-results"),
       safeFetch("/api/rest-results"),
       safeFetch(`/api/monthly-chart?month=${month}&year=${year}`),
-    ]).then(([live, next, rest, chart]) => {
+      safeFetch("/api/sattaking24"),
+      safeFetch("/api/sattaking24-chart"),
+    ]).then(([live, next, rest, chart, sk24, sk24chart]) => {
       if (live.success) setLiveResults(live.results || []);
       if (next.success) setNextResults(next.results || []);
       if (rest.success) setRestResults(rest.results || []);
       if (chart.success) setChartData({ month: chart.month, year: chart.year, results: chart.results || [] });
+      if (sk24.success) setSk24Games(sk24.games || []);
+      if (sk24chart.success) setSk24Charts(sk24chart.tables || []);
       setLoading(false);
     });
   }, []);
 
   const updatedAt = format(new Date(), "dd MMMM yyyy, hh:mm a") + " IST";
+
+  // Filter out SK24 games from existing sections to avoid duplicates
+  const sk24Names = new Set(sk24Games.map(g => g.name.toLowerCase().replace(/\s+/g, "")));
+  const isInSK24 = (name: string) => sk24Names.has(name.toLowerCase().replace(/\s+/g, ""));
+  const filteredLive = liveResults.filter(g => !isInSK24(g.name));
+  const filteredNext = nextResults.filter(g => !isInSK24(g.name));
+  const filteredRest = restResults.filter(g => !isInSK24(g.name));
 
   return (
     <div ref={containerRef}>
@@ -136,12 +162,6 @@ export default function HomePage() {
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
           Satta King {format(new Date(), "yyyy")} Live Updates: Fastest Satta Result Today &amp; Satta King Result Dashboard
         </h1>
-        <p className="text-[16px] sm:text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
-          Welcome to the ultimate digital hub for tracking the quickest <strong>satta result today</strong>. If you are looking for an authentic, delay-free <strong>satta king result</strong> portal, you have landed on India&apos;s most trusted platform. We understand that in this fast-paced market, even a few seconds matter. That is why our technical infrastructure is fine-tuned to deliver a <strong>satta king fast</strong> live data feed, updating winning numbers the exact moment they are officially declared.
-        </p>
-        <p className="text-[14px] sm:text-xs md:text-sm text-slate-500 leading-relaxed max-w-3xl mx-auto mt-2">
-          Get 100% accurate daily updates, historical charts, and guessing community insights for over 100+ national and regional markets, completely free of registration or hidden costs.
-        </p>
         <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[14px] md:text-xs text-slate-300">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
           Last Updated: {updatedAt}
@@ -170,8 +190,13 @@ export default function HomePage() {
           </div>
         ) : (
           <>
+            {/* Satta King 24 Results */}
+            {sk24Games.length > 0 && (
+              <SK24ResultsSection games={sk24Games} />
+            )}
+
             {/* LIVE Section */}
-            {liveResults.length > 0 && (
+            {filteredLive.length > 0 && (
               <GameSection
                 title="LIVE Results"
                 subtitle="Games currently being declared"
@@ -179,20 +204,20 @@ export default function HomePage() {
                 accentColor="text-[#dc2626]"
                 headerBg="bg-[#dc2626]"
                 badgeBg="bg-red-50 text-[#dc2626]"
-                games={liveResults}
+                games={filteredLive}
                 isLive
               />
             )}
 
             <AdSlot placement="homepage_middle" />
 
-            {/* Monthly Chart */}
-            {chartData.results.length > 0 && (
-              <MonthlyChartSection month={chartData.month} year={chartData.year} rows={chartData.results} />
+            {/* Satta King 24 Charts */}
+            {sk24Charts.length > 0 && (
+              <SK24ChartsSection tables={sk24Charts} />
             )}
 
             {/* NEXT Section */}
-            {nextResults.length > 0 && (
+            {filteredNext.length > 0 && (
               <GameSection
                 title="Upcoming Results"
                 subtitle="These games will be declared soon"
@@ -200,12 +225,12 @@ export default function HomePage() {
                 accentColor="text-[#b45309]"
                 headerBg="bg-[#d97706]"
                 badgeBg="bg-amber-50 text-[#b45309]"
-                games={nextResults}
+                games={filteredNext}
               />
             )}
 
             {/* REST Section */}
-            {restResults.length > 0 && (
+            {filteredRest.length > 0 && (
               <GameSection
                 title="Declared Results"
                 subtitle="Today's completed game results"
@@ -213,11 +238,21 @@ export default function HomePage() {
                 accentColor="text-[#059669]"
                 headerBg="bg-[#059669]"
                 badgeBg="bg-emerald-50 text-[#059669]"
-                games={restResults}
+                games={filteredRest}
               />
             )}
           </>
         )}
+
+        {/* Welcome Content */}
+        <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-4 md:p-8 space-y-3 text-xs md:text-sm text-gray-600 leading-relaxed shadow-sm">
+          <p>
+            Welcome to the ultimate digital hub for tracking the quickest <strong>satta result today</strong>. If you are looking for an authentic, delay-free <strong>satta king result</strong> portal, you have landed on India&apos;s most trusted platform. We understand that in this fast-paced market, even a few seconds matter. That is why our technical infrastructure is fine-tuned to deliver a <strong>satta king fast</strong> live data feed, updating winning numbers the exact moment they are officially declared.
+          </p>
+          <p>
+            Get 100% accurate daily updates, historical charts, and guessing community insights for over 100+ national and regional markets, completely free of registration or hidden costs.
+          </p>
+        </div>
 
         {/* CTA */}
         <div className="sa opacity-0 translate-y-8 bg-[#0d1b2a] rounded-xl p-4 md:p-6 text-center border border-white/10">
@@ -403,33 +438,33 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
           </div>
         ) : (
           <div className="overflow-hidden">
-            <table className="w-full table-fixed text-[18px] sm:text-xs md:text-base">
+            <table className="w-full table-fixed text-[18px] sm:text-xs md:text-base border-collapse">
               <thead>
-                <tr className="bg-[#0f172a] text-white text-[9px] text-[14px] md:text-sm uppercase tracking-wider">
-                  <th className="py-2 px-0.5 md:px-3 text-[#f87171] font-bold">DATE</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold">DSWR</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold">FRBD</th>
-                  <th className="py-2 px-0.5 md:px-3 text-[#fbbf24] font-semibold">GZBD</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold">GALI</th>
-                  <th className="py-2 px-0.5 md:px-3 text-[#a78bfa] font-semibold">SRGN</th>
-                  <th className="py-2 px-0.5 md:px-3 text-[#60a5fa] font-semibold">DLBZ</th>
+                <tr className="bg-[#0f172a] text-white text-[14px] md:text-sm uppercase tracking-wider">
+                  <th className="py-2 px-0.5 md:px-3 text-[#f87171] font-bold border border-gray-600">DATE</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DSWR</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">FRBD</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">GZBD</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">GALI</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">SRGN</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DLBZ</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((row, i) => (
                   <tr
                     key={row.date}
-                    className={`border-t border-gray-100 text-center transition-colors hover:bg-blue-50/50 ${
+                    className={`text-center transition-colors hover:bg-blue-50/50 ${
                       i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
                     }`}
                   >
-                    <td className="py-1.5 px-0.5 md:px-3 text-[#f87171] font-bold">{row.date}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.dswr}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.frbd}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-[#d97706]">{row.gzbd}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700">{row.gali}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-purple-500">{row.srgn}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-blue-500">{row.dlbz}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 text-[#f87171] font-bold border border-gray-200">{row.date}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dswr}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.frbd}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.gzbd}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.gali}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.srgn}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dlbz}</td>
                   </tr>
                 ))}
               </tbody>
@@ -454,6 +489,138 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
           {format(nextDate, "MMM yyyy")} &rarr;
         </button>
       </div>
+    </div>
+  );
+}
+
+// ─── Satta King 24 Results Section ───
+
+function SK24ResultsSection({ games }: { games: SK24Game[] }) {
+  return (
+    <section className="sa opacity-0 translate-y-8">
+      {/* Section Header */}
+      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
+        <div className="p-2 rounded-lg bg-[#1e40af] text-white shrink-0">
+          <FiZap size={18} />
+        </div>
+        <div className="min-w-0">
+          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
+            Today Satta Result
+            <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />
+          </h2>
+          <p className="text-[14px] md:text-xs text-gray-400">Fastest Satta King result site on internet</p>
+        </div>
+        <div className="ml-auto px-2.5 md:px-3 py-1 rounded-full text-[16px] md:text-xs font-bold bg-blue-50 text-[#1e40af] shrink-0">
+          {games.length} Games
+        </div>
+      </div>
+
+      {/* Results Table */}
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+        <table className="w-full table-fixed">
+          <thead>
+            <tr className="bg-[#1e40af] text-white text-[14px] md:text-base uppercase tracking-wider">
+              <th className="py-2 px-1.5 md:px-4 text-left font-semibold w-[40%] md:w-auto">Game</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[20%] md:w-auto">Yest.</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[22%] md:w-auto">Today</th>
+              <th className="py-2 px-1 md:px-3 text-center font-semibold w-[18%] md:w-auto">Chart</th>
+            </tr>
+          </thead>
+          <tbody>
+            {games.map((game, i) => {
+              const slug = game.name.toLowerCase().replace(/\s+/g, "-");
+              return (
+              <tr
+                key={game.name + i}
+                className={`border-t border-gray-100 transition-colors hover:bg-gray-50 ${
+                  i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
+                }`}
+              >
+                <td className="py-2 px-1.5 md:px-4">
+                  <div className="font-extrabold text-[#1a1a2e] uppercase text-lg md:text-lg leading-tight truncate">
+                    {game.name}
+                  </div>
+                  <div className="text-[16px] md:hidden text-gray-400 font-medium mt-0.5">
+                    {game.time}
+                  </div>
+                </td>
+                <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
+                  {game.time}
+                </td>
+                <td className="py-2 px-1 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-xl">
+                  {game.yesterday || "--"}
+                </td>
+                <td className={`py-2 px-1 md:px-3 text-center font-mono font-extrabold text-xl md:text-2xl ${
+                  game.today === "XX" ? "text-[#dc2626]" : "text-[#1e40af]"
+                }`}>
+                  {game.today || "--"}
+                </td>
+                <td className="py-2 px-1 md:px-3 text-center">
+                  <Link
+                    href={`/chart/${slug}`}
+                    className="text-[14px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
+                  >
+                    View
+                  </Link>
+                </td>
+              </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+// ─── Satta King 24 Charts Section ───
+
+function SK24ChartsSection({ tables }: { tables: SK24ChartTable[] }) {
+  return (
+    <div className="sa opacity-0 translate-y-8 space-y-6">
+      {tables.map((table, idx) => (
+        <div key={idx} className="bg-white rounded-xl border-2 border-black overflow-hidden shadow-sm">
+          <div className="bg-[#5f9ea0] text-white text-center py-2.5 px-3 text-sm md:text-base font-bold">
+            {table.title}
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full table-fixed text-sm md:text-base border-collapse">
+              <thead>
+                <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase">
+                  {table.headers.map((h, hi) => (
+                    <th key={hi} className="py-2 px-1 md:px-3 font-semibold border border-black">
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {table.rows.map((row, ri) => (
+                  <tr key={ri} className={`text-center ${ri % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
+                    {row.map((cell, ci) => (
+                      <td
+                        key={ci}
+                        className={`py-1.5 px-1 md:px-3 font-mono font-bold border border-black ${
+                          ci === 0 ? "text-[#f87171]" : "text-gray-700"
+                        }`}
+                      >
+                        {cell || "--"}
+                      </td>
+                    ))}
+                    {/* Fill empty cells if row is shorter than headers */}
+                    {Array.from({ length: Math.max(0, table.headers.length - row.length) }).map((_, fi) => (
+                      <td key={`fill-${fi}`} className="py-1.5 px-1 md:px-3 font-mono font-bold border border-black text-gray-700">
+                        --
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

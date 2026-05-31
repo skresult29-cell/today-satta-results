@@ -20,7 +20,7 @@ export function WhatsAppButton() {
 
       {/* WhatsApp Button */}
       <a
-        href={getWhatsAppLink(phone, "Hi, I need help with Satta Result")}
+        href={getWhatsAppLink(phone, "VP BHAI")}
         target="_blank"
         rel="noopener noreferrer"
         className="bg-green-500 hover:bg-green-600 text-white p-3 md:p-4 rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-green-300/50 hover:shadow-xl"

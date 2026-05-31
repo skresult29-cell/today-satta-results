@@ -159,6 +159,8 @@ import type {
   HomepageData,
   MonthlyChartData,
   GameChartData,
+  SK24GamesData,
+  SK24ChartsData,
 } from "./types";
 
 import { adminDb } from "./firebase-admin";
@@ -317,6 +319,92 @@ export async function getGameChartFromFirestore(
   } catch (err) {
     console.error(
       "[firebase-cache] Failed to read game chart:",
+      (err as Error).message
+    );
+    return null;
+  }
+}
+
+// ─── SK24 Games Data ───
+
+export async function saveSK24GamesToFirestore(
+  data: SK24GamesData
+): Promise<void> {
+  try {
+    await adminDb.collection(COLLECTION).doc("sk24_games").set({
+      games: data.games,
+      scrapedAt: data.scrapedAt,
+      updatedAt: Date.now(),
+    });
+  } catch (err) {
+    console.error(
+      "[firebase-cache] Failed to save SK24 games:",
+      (err as Error).message
+    );
+  }
+}
+
+export async function getSK24GamesFromFirestore(): Promise<SK24GamesData | null> {
+  try {
+    const snap = await adminDb
+      .collection(COLLECTION)
+      .doc("sk24_games")
+      .get();
+
+    if (!snap.exists) return null;
+
+    const d = snap.data();
+
+    return {
+      games: d?.games || [],
+      scrapedAt: d?.scrapedAt || 0,
+    };
+  } catch (err) {
+    console.error(
+      "[firebase-cache] Failed to read SK24 games:",
+      (err as Error).message
+    );
+    return null;
+  }
+}
+
+// ─── SK24 Charts Data ───
+
+export async function saveSK24ChartsToFirestore(
+  data: SK24ChartsData
+): Promise<void> {
+  try {
+    await adminDb.collection(COLLECTION).doc("sk24_charts").set({
+      tables: data.tables,
+      scrapedAt: data.scrapedAt,
+      updatedAt: Date.now(),
+    });
+  } catch (err) {
+    console.error(
+      "[firebase-cache] Failed to save SK24 charts:",
+      (err as Error).message
+    );
+  }
+}
+
+export async function getSK24ChartsFromFirestore(): Promise<SK24ChartsData | null> {
+  try {
+    const snap = await adminDb
+      .collection(COLLECTION)
+      .doc("sk24_charts")
+      .get();
+
+    if (!snap.exists) return null;
+
+    const d = snap.data();
+
+    return {
+      tables: d?.tables || [],
+      scrapedAt: d?.scrapedAt || 0,
+    };
+  } catch (err) {
+    console.error(
+      "[firebase-cache] Failed to read SK24 charts:",
       (err as Error).message
     );
     return null;

@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { scrapeGameChart } from "@/lib/scraper";
+import { scrapeGameChart, scrapeSK24GameChart } from "@/lib/scraper";
 import { getGameChartFromFirestore, saveGameChartToFirestore } from "@/lib/firebase-cache";
 import type { GameChartData } from "@/lib/types";
 import { memGet, memSet, CHART_CACHE_HEADERS } from "@/lib/api-helpers";
@@ -31,7 +31,11 @@ export async function GET(req: NextRequest) {
 
   // 3. Scrape fallback
   try {
-    const result = await scrapeGameChart(slug, month, year);
+    let result = await scrapeGameChart(slug, month, year);
+    // Fallback to SK24 for games not on satta-king-fast.com
+    if (!result) {
+      result = await scrapeSK24GameChart(slug, month, year);
+    }
     if (!result) {
       return Response.json({ success: false, error: "Game not found" }, { status: 404 });
     }

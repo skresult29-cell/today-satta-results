@@ -4,7 +4,6 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
-import { NotificationModal } from "@/components/layout/NotificationModal";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -82,7 +81,6 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
-        <NotificationModal />
       </body>
     </html>
   );
