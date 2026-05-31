@@ -134,11 +134,13 @@ export default function HomePage() {
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
-          Today Satta King Result {format(new Date(), "yyyy")}
+          Satta King {format(new Date(), "yyyy")} Live Updates: Fastest Satta Result Today &amp; Satta King Result Dashboard
         </h1>
         <p className="text-[16px] sm:text-xs md:text-base text-slate-400 leading-relaxed max-w-3xl mx-auto">
-          Superfast Live Satta Result of {format(new Date(), "do MMMM yyyy")} for
-          Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar &amp; 100+ Games
+          Welcome to the ultimate digital hub for tracking the quickest <strong>satta result today</strong>. If you are looking for an authentic, delay-free <strong>satta king result</strong> portal, you have landed on India&apos;s most trusted platform. We understand that in this fast-paced market, even a few seconds matter. That is why our technical infrastructure is fine-tuned to deliver a <strong>satta king fast</strong> live data feed, updating winning numbers the exact moment they are officially declared.
+        </p>
+        <p className="text-[14px] sm:text-xs md:text-sm text-slate-500 leading-relaxed max-w-3xl mx-auto mt-2">
+          Get 100% accurate daily updates, historical charts, and guessing community insights for over 100+ national and regional markets, completely free of registration or hidden costs.
         </p>
         <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[14px] md:text-xs text-slate-300">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
@@ -461,91 +463,107 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 function SeoContent() {
   return (
     <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-4 md:p-8 space-y-4 md:space-y-5 text-xs md:text-sm text-gray-600 leading-relaxed shadow-sm">
-      <h2 className="text-xl md:text-xl font-extrabold text-[#0d1b2a]">
-        Today Satta Result &mdash; Live Satta King Result {new Date().getFullYear()}
-      </h2>
+      <h2 className="text-xl md:text-2xl font-extrabold text-[#0d1b2a]">Understanding Satta King &amp; The Traditional Satta Matka Result Ecosystem</h2>
       <p>
-        Welcome to <strong>TodaySattaResult.com</strong>, India&apos;s number one destination for superfast live
-        <strong> Satta King results</strong>. We provide the fastest and most accurate daily results for all major games
-        including <strong>Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar</strong> and over
-        <strong> 100+ regional Satta King games</strong>. Whether you are looking for today&apos;s live result,
-        yesterday&apos;s result, or complete monthly Satta King chart records from 2015 to 2026, you will find
-        everything right here &mdash; updated every minute, completely free.
+        The world of <strong>satta king</strong> historically operates as a highly engaging, number-based lottery where participants select numerical combinations based on structural analysis and mathematical guessing. While the mainstream <strong>satta king {new Date().getFullYear()}</strong> market focuses on specific localized draws, millions of daily enthusiasts also follow the broader <strong>satta matka result</strong> frameworks that run across different states.
+      </p>
+      <p>
+        Because multiple independent operators manage these draws, finding a single, verified <strong>matka result</strong> online can often be confusing. Our platform bridges this communication gap by acting as a verified aggregator, bringing you clean, direct, and real-time updates from every corner of the country.
       </p>
 
-      <h3 className="text-xl font-bold text-[#0d1b2a]">What is Satta King?</h3>
-      <p>
-        <strong>Satta King</strong> is one of the most popular number-based games in India. Players choose a number
-        and wait for the official result to be declared at a fixed time. There are hundreds of Satta King games
-        played across India daily, with the most popular being <strong>Gali Satta King</strong>,
-        <strong> Desawar Satta King</strong>, <strong>Ghaziabad Satta King</strong>, and
-        <strong> Faridabad Satta King</strong>. Results are declared by authorized operators at specific times
-        throughout the day and night. Our website collects these results instantly and displays them for
-        informational purposes.
-      </p>
-
-      <h3 className="text-xl font-bold text-[#0d1b2a]">Why Choose TodaySattaResult.com?</h3>
+      <h2 className="text-xl font-bold text-[#0d1b2a]">Why Bookmark TodaySattaResult.com for Live Updates?</h2>
       <ul className="list-none space-y-2 pl-0">
         <li className="flex items-start gap-2">
           <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>Superfast Results:</strong> We update Satta King results within seconds of official declaration &mdash; faster than any other website</span>
+          <span><strong>Unmatched Speed:</strong> Our automated scraping system guarantees a <strong>satta king fast</strong> experience, bypassing the usual server lags found on older platforms.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>100+ Games Covered:</strong> Complete coverage of Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar, Mohali, Meerut City, Super Taj, Jaipur King, Mumbai Bazaar, and many more</span>
+          <span><strong>Massive Regional Coverage:</strong> From premium national games to local <strong>sattaking up</strong> and popular <strong>up sattaking</strong> circles, we leave no market uncovered.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>Monthly Chart Records:</strong> Free Satta King chart records for all major games from 2015 to {new Date().getFullYear()}, updated daily</span>
+          <span><strong>Deep Trend Analysis Archives:</strong> Access comprehensive, well-organized historical data sheets from 2015 up to the current <strong>satta king {new Date().getFullYear()}</strong> timeline to track recurring numerical patterns.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>Mobile Optimized:</strong> Fully responsive design that works perfectly on mobile, tablet, and desktop</span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>100% Free:</strong> All results, charts, and notifications are completely free &mdash; no registration required</span>
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="text-[#e63946] font-bold mt-0.5">&#10003;</span>
-          <span><strong>WhatsApp Notifications:</strong> Get instant Satta King result alerts directly on WhatsApp</span>
+          <span><strong>Responsive Mobile Interface:</strong> Over 95% of users check results via smartphones. Our UI/UX is built specifically as a mobile-first application so that tables never overlap.</span>
         </li>
       </ul>
 
-      <h3 className="text-xl font-bold text-[#0d1b2a]">Satta King Result Time Table {new Date().getFullYear()}</h3>
+      <h2 className="text-xl font-bold text-[#0d1b2a]">Live Satta King Gali Disawar &amp; National Game Time Table</h2>
       <p>
-        The four most popular <strong>Satta King games</strong> and their official result times are:
-        <strong> Desawar</strong> (05:00 AM), <strong>Faridabad</strong> (06:00 PM),
-        <strong> Ghaziabad</strong> (09:25 PM), and <strong>Gali</strong> (11:25 PM). Other popular games include
-        <strong> Shri Ganesh</strong> (04:30 PM), <strong>Delhi Bazar</strong> (03:00 PM),
-        <strong> Mohali</strong>, <strong>Meerut City</strong>, <strong>Super Taj</strong>,
-        <strong> Jaipur King</strong>, <strong>Mumbai Bazaar</strong>, <strong>Agra Special</strong>,
-        <strong> Rajdhani Day</strong>, <strong>Kashipur</strong>, <strong>Aligarh Gold</strong>,
-        and many more. All results are available on TodaySattaResult.com as soon as they are declared.
+        Timing is everything. To make sure you never miss a draw, here is the official daily timetable for India&apos;s core markets. Our platform updates the <strong>satta king gali disawar</strong> panels simultaneously during these peak schedules:
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs md:text-sm border border-gray-200 rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-[#0f172a] text-white">
+              <th className="py-2 px-3 text-left font-semibold">Game Name</th>
+              <th className="py-2 px-3 text-left font-semibold">Official Draw Time</th>
+              <th className="py-2 px-3 text-left font-semibold">Update Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-t border-gray-100 bg-white">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Desawar Satta</td>
+              <td className="py-2 px-3">05:00 AM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Early Morning Live Update</td>
+            </tr>
+            <tr className="border-t border-gray-100 bg-gray-50/40">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Delhi Bazar</td>
+              <td className="py-2 px-3">03:00 PM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Afternoon Live Update</td>
+            </tr>
+            <tr className="border-t border-gray-100 bg-white">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Shri Ganesh</td>
+              <td className="py-2 px-3">04:30 PM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Evening Live Update</td>
+            </tr>
+            <tr className="border-t border-gray-100 bg-gray-50/40">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Faridabad Satta</td>
+              <td className="py-2 px-3">06:00 PM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Late Evening Live Update</td>
+            </tr>
+            <tr className="border-t border-gray-100 bg-white">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Ghaziabad Satta</td>
+              <td className="py-2 px-3">09:25 PM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Prime Night Live Update</td>
+            </tr>
+            <tr className="border-t border-gray-100 bg-gray-50/40">
+              <td className="py-2 px-3 font-bold text-[#1a1a2e]">Gali Satta</td>
+              <td className="py-2 px-3">11:25 PM</td>
+              <td className="py-2 px-3 text-emerald-600 font-medium">Midnight Live Update</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-gray-500 italic">
+        <strong>Note:</strong> We also provide rapid result displays for specialized regional markets like Mohali, Meerut City, Super Taj, Jaipur King, Mumbai Bazaar, Agra Special, Rajdhani Day, Kashipur, and Aligarh Gold as soon as the respective operators drop the numbers.
       </p>
 
-      <h3 className="text-xl font-bold text-[#0d1b2a]">Monthly Satta King Chart {new Date().getFullYear()}</h3>
+      <h2 className="text-xl font-bold text-[#0d1b2a]">How to Navigate and Track Results Safely</h2>
       <p>
-        View complete <strong>monthly Satta King result charts</strong> for Gali, Desawar, Ghaziabad, Faridabad,
-        Shri Ganesh, and Delhi Bazar. Our chart records are available from <strong>2015 to {new Date().getFullYear()}</strong> and
-        are updated daily with the latest results. Use the monthly chart to track patterns, view historical
-        data, and access past results for any date. Charts for all 100+ games are also available on our
-        dedicated chart pages.
+        Checking your daily numbers on our platform is incredibly straightforward:
       </p>
+      <ul className="list-none space-y-2 pl-0">
+        <li className="flex items-start gap-2">
+          <span className="text-[#e63946] font-bold mt-0.5">&#8226;</span>
+          <span><strong>The Live Stream:</strong> When you open the homepage, the ongoing, flashing <strong>satta result today</strong> dashboard will appear right at the top.</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-[#e63946] font-bold mt-0.5">&#8226;</span>
+          <span><strong>Yesterday vs Today Comparison:</strong> The interactive layout places yesterday&apos;s final numbers right next to today&apos;s declared digits for quick verification.</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-[#e63946] font-bold mt-0.5">&#8226;</span>
+          <span><strong>Deep Archives:</strong> If you want to analyze long-term patterns, simply click on the &quot;View Chart&quot; button next to any game to look at the multi-year history sheet.</span>
+        </li>
+      </ul>
 
-      <h3 className="text-lg font-bold text-[#0d1b2a]">How to Check Today Satta King Result?</h3>
-      <p>
-        Checking today&apos;s Satta King result on TodaySattaResult.com is simple. Visit our homepage and you will
-        see all live results at the top, followed by upcoming games and declared results. Each game shows
-        yesterday&apos;s result and today&apos;s result side by side. You can also click &quot;View Chart&quot; next to any game
-        to see its complete monthly history. Bookmark <strong>TodaySattaResult.com</strong> for the fastest updates every day.
-      </p>
-
+      <h3 className="text-lg font-bold text-[#0d1b2a]">Disclaimer &amp; Platform Usage Policy</h3>
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-xs text-red-700">
-        <strong>Disclaimer:</strong> TodaySattaResult.com is purely an informational website. We do not
-        encourage, promote, or endorse any form of gambling, betting, or illegal activity. Users must comply
-        with all applicable local, state, and national laws. This website is intended for informational
-        purposes only. Please gamble responsibly.
+        <strong>Important Legal Notice:</strong> This platform, TodaySattaResult.com, is strictly meant for informational, educational, and historical archival purposes only. We do not own, operate, or facilitate any form of online gambling, lottery, betting, or Satta Matka operations. Participation in these activities may be illegal, restricted, or completely banned under the jurisdiction of your local state laws. We strongly advise all visitors to comply with their respective regional regulations. This website does not encourage or endorse any illegal monetary transactions.
       </div>
     </div>
   );
