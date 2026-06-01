@@ -9,17 +9,7 @@ export function WhatsAppButton() {
 
   return (
     <div className="fixed bottom-4 right-3 md:bottom-6 md:right-6 z-50 flex flex-col items-center gap-2 md:gap-3">
-      {/* Refresh Button */}
-      <button
-        onClick={() => window.location.reload()}
-        className="bg-blue-500 hover:bg-blue-600 text-white p-2.5 md:p-3 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95 hover:shadow-blue-300/50 hover:shadow-xl"
-        aria-label="Refresh page"
-      >
-        <FiRefreshCw className="w-4 h-4 md:w-[22px] md:h-[22px]" />
-      </button>
-
-      {/* WhatsApp Button */}
-      <a
+<a
         href={getWhatsAppLink(phone, "VP BHAI")}
         target="_blank"
         rel="noopener noreferrer"

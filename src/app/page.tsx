@@ -6,6 +6,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { FiClock, FiTrendingUp, FiBarChart2, FiZap, FiPhone } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
+import { WhatsAppModal } from "@/components/layout/WhatsAppModal";
 
 // ─── Types ───
 
@@ -158,6 +159,7 @@ export default function HomePage() {
 
   return (
     <div ref={containerRef}>
+      <WhatsAppModal />
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
@@ -243,6 +245,15 @@ export default function HomePage() {
                 headerBg="bg-[#059669]"
                 badgeBg="bg-emerald-50 text-[#059669]"
                 games={filteredRest}
+              />
+            )}
+
+            {/* Monthly Chart */}
+            {chartData.results.length > 0 && (
+              <MonthlyChartSection
+                month={chartData.month}
+                year={chartData.year}
+                rows={chartData.results}
               />
             )}
           </>
@@ -423,7 +434,7 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="bg-[#1e293b] text-white text-center py-2 md:py-2.5 text-[14px] md:text-sm font-bold px-2 md:px-3 leading-relaxed">
-          Satta King Chart {displayMonth} {displayYear} <span className="hidden sm:inline">&mdash; Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh &amp; Delhi Bazar</span>
+          Satta King Chart {displayMonth} {displayYear} <span className="hidden sm:inline">&mdash; Faridabad, Ghaziabad, Gali, Shri Ganesh, Delhi Bazar &amp; Desawar</span>
         </div>
 
         {chartLoading ? (
@@ -446,12 +457,12 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
               <thead>
                 <tr className="bg-[#0f172a] text-white text-[14px] md:text-sm uppercase tracking-wider">
                   <th className="py-2 px-0.5 md:px-3 text-[#f87171] font-bold border border-gray-600">DATE</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DSWR</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DLBZ</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">SRGN</th>
                   <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">FRBD</th>
                   <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">GZBD</th>
                   <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">GALI</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">SRGN</th>
-                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DLBZ</th>
+                  <th className="py-2 px-0.5 md:px-3 font-semibold border border-gray-600">DSWR</th>
                 </tr>
               </thead>
               <tbody>
@@ -463,12 +474,12 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
                     }`}
                   >
                     <td className="py-1.5 px-0.5 md:px-3 text-[#f87171] font-bold border border-gray-200">{row.date}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dswr}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dlbz}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.srgn}</td>
                     <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.frbd}</td>
                     <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.gzbd}</td>
                     <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.gali}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.srgn}</td>
-                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dlbz}</td>
+                    <td className="py-1.5 px-0.5 md:px-3 font-mono font-bold text-gray-700 border border-gray-200">{row.dswr}</td>
                   </tr>
                 ))}
               </tbody>
