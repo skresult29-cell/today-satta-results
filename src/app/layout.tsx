@@ -23,7 +23,10 @@ export const metadata: Metadata = {
   },
   description:
     "Today Satta Result - Get superfast live Satta King results for Gali, Desawar, Ghaziabad, Faridabad, Shri Ganesh, Delhi Bazar & 100+ games. Monthly chart records from 2015-2026. Updated daily.",
-  keywords: [
+    verification: {
+      google: "bXizORxuTsUj31XTKd-Of9ok8giwf-YwXv-c-TOvlGA",
+    },
+    keywords: [
     "today satta result",
     "satta king result",
     "satta king",
