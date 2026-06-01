@@ -163,7 +163,7 @@ export default function HomePage() {
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
-          Satta King {format(new Date(), "yyyy")} Live Updates: Fastest Satta Result Today &amp; Satta King Result Dashboard
+          Satta King {format(new Date(), "yyyy")}{" "}Live Updates: Fastest Satta Result Today &amp; Satta King Result Dashboard
         </h1>
         <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[14px] md:text-xs text-slate-300">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
@@ -520,7 +520,7 @@ function SK24ResultsSection({ games }: { games: SK24Game[] }) {
         </div>
         <div className="min-w-0">
           <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
-            Today Satta Result
+            Today Satta King Result 2026
             <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />
           </h2>
           <p className="text-[14px] md:text-xs text-gray-400">Fastest Satta King result site on internet</p>
@@ -885,6 +885,8 @@ function SeoContent() {
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-xs text-red-700">
         <strong>Important Legal Notice:</strong> This platform, TodaySattaResult.com, is strictly meant for informational, educational, and historical archival purposes only. We do not own, operate, or facilitate any form of online gambling, lottery, betting, or Satta Matka operations. Participation in these activities may be illegal, restricted, or completely banned under the jurisdiction of your local state laws. We strongly advise all visitors to comply with their respective regional regulations. This website does not encourage or endorse any illegal monetary transactions.
       </div>
+      {/* Spacer for fixed WhatsApp button */}
+      <div className="h-20" />
     </div>
   );
 }
