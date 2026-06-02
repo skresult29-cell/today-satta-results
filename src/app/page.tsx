@@ -5,7 +5,7 @@ import { AdSlot } from "@/components/layout/AdSlot";
 import Link from "next/link";
 import { format } from "date-fns";
 import { FiClock, FiTrendingUp, FiBarChart2, FiZap, FiPhone } from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaTelegramPlane } from "react-icons/fa";
 import { WhatsAppModal } from "@/components/layout/WhatsAppModal";
 
 // ─── Types ───
@@ -258,6 +258,9 @@ export default function HomePage() {
             )}
           </>
         )}
+
+        {/* Telegram Section */}
+        <TelegramSection />
 
         {/* Welcome Content */}
         <div className="sa opacity-0 translate-y-8 bg-white rounded-xl border border-gray-200 p-4 md:p-8 space-y-3 text-xs md:text-sm text-gray-600 leading-relaxed shadow-sm">
@@ -775,6 +778,36 @@ function GameScheduleSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── Telegram Section ───
+
+function TelegramSection() {
+  return (
+    <div className="sa opacity-0 translate-y-8 bg-gradient-to-b from-[#0f172a] to-[#1e293b] rounded-xl border border-slate-700 p-5 md:p-8 text-center space-y-4 shadow-lg">
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#0088cc]/20 mb-1">
+        <FaTelegramPlane className="w-7 h-7 text-[#0088cc]" />
+      </div>
+      <h3 className="text-white font-extrabold text-lg md:text-xl">
+        Satta King Daily Passing Tricks
+      </h3>
+      <p className="text-slate-300 text-sm md:text-base leading-relaxed max-w-lg mx-auto">
+        Delhi Bazar se Disawar tak daily passing pane ke liye hamare Telegram channel ko join karein.
+      </p>
+      <a
+        href="https://t.me/kingfast24"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 bg-[#0088cc] hover:bg-[#0077b5] text-white font-extrabold text-base md:text-lg px-6 py-3 rounded-full shadow-lg shadow-[#0088cc]/20 transition-all hover:scale-105 hover:shadow-[#0088cc]/40 hover:shadow-xl"
+      >
+        <FaTelegramPlane className="w-5 h-5" />
+        Join Telegram Channel
+      </a>
+      <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-lg mx-auto">
+        Channel join karke website ko bookmark kar lo, taaki aapko rozana 2-3 game passing aur latest updates milti rahein.
+      </p>
+    </div>
   );
 }
 
