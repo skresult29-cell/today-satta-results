@@ -4,6 +4,8 @@ import { getGameChartFromFirestore, saveGameChartToFirestore } from "@/lib/fireb
 import type { GameChartData } from "@/lib/types";
 import { memGet, memSet, CHART_CACHE_HEADERS } from "@/lib/api-helpers";
 
+const STALE_MS = 10 * 60 * 1000; // 10 minutes — re-scrape if older
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
@@ -22,10 +24,10 @@ export async function GET(req: NextRequest) {
     return Response.json({ success: true, ...cached }, { headers: CHART_CACHE_HEADERS });
   }
 
-  // 2. Firebase
+  // 2. Firebase (with staleness check)
   const firebaseData = await getGameChartFromFirestore(slug, month, year);
-  if (firebaseData) {
-    memSet(cacheKey, firebaseData, 300); // 5 min — chart changes once/day
+  if (firebaseData && Date.now() - firebaseData.scrapedAt < STALE_MS) {
+    memSet(cacheKey, firebaseData, 300); // 5 min
     return Response.json({ success: true, ...firebaseData }, { headers: CHART_CACHE_HEADERS });
   }
 

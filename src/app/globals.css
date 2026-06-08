@@ -117,3 +117,12 @@ body {
 .animate-scaleIn {
   animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Fade in/out pulse for spotlight */
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.animate-fade-pulse {
+  animation: fadeInOut 2.5s ease-in-out infinite;
+}

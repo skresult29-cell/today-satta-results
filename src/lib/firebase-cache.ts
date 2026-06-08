@@ -333,6 +333,7 @@ export async function saveSK24GamesToFirestore(
   try {
     await adminDb.collection(COLLECTION).doc("sk24_games").set({
       games: data.games,
+      spotlight: data.spotlight || null,
       scrapedAt: data.scrapedAt,
       updatedAt: Date.now(),
     });
@@ -357,6 +358,7 @@ export async function getSK24GamesFromFirestore(): Promise<SK24GamesData | null>
 
     return {
       games: d?.games || [],
+      spotlight: d?.spotlight || undefined,
       scrapedAt: d?.scrapedAt || 0,
     };
   } catch (err) {

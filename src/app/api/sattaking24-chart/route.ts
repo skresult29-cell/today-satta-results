@@ -7,29 +7,43 @@ import type { SK24ChartTable, SK24ChartsData } from "@/lib/types";
 
 const STALE_MS = 10 * 60 * 1000; // 10 minutes (charts change less frequently)
 
+// Extract HTML tables from Next.js RSC streaming payload
+function extractRSCHtml(html: string): string {
+  const tableMatches = html.match(/<table class="newtable"[\s\S]*?<\/table>/g);
+  if (tableMatches && tableMatches.length > 0) {
+    return tableMatches.join("\n");
+  }
+  return html;
+}
+
 async function scrapeSK24Charts(): Promise<SK24ChartTable[]> {
-  const { data: html } = await axios.get("https://www.satta-king-24.com/chart", {
+  const { data: rawHtml } = await axios.get("https://www.satta-king-24.com/chart", {
     timeout: 15000,
     headers: { "User-Agent": "Mozilla/5.0" },
   });
 
-  const $ = cheerio.load(html);
+  // SK24 uses Next.js RSC streaming — table HTML is inside script tags
+  const tableHtml = extractRSCHtml(rawHtml);
+  const $ = cheerio.load(tableHtml);
   const tables: SK24ChartTable[] = [];
 
   $("table.newtable").each((_, table) => {
-    const titleRow = $(table).find("tr").first();
-    const title = titleRow.text().trim().replace(/\s+/g, " ");
-
+    // Headers are in the first tr with th elements
     const headers: string[] = [];
-    $(table).find("tr").eq(1).find("th").each((_, th) => {
+    $(table).find("th").each((_, th) => {
       headers.push($(th).text().trim());
     });
 
+    const title = headers.filter(h => h.toUpperCase() !== "DATE").join(", ");
+
     const rows: string[][] = [];
-    $(table).find("tbody tr").each((_, tr) => {
+    $(table).find("tr").each((_, tr) => {
+      const tds = $(tr).find("td");
+      if (tds.length === 0) return; // skip header row
       const cells: string[] = [];
-      $(tr).find("td").each((_, td) => {
-        cells.push($(td).text().trim());
+      tds.each((_, td) => {
+        const text = $(td).text().trim();
+        cells.push(text === "-" ? "" : text);
       });
       if (cells.length > 0) {
         rows.push(cells);

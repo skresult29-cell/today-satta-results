@@ -48,8 +48,15 @@ export interface SK24Game {
   today: string;
 }
 
+export interface SK24Spotlight {
+  upcomingName: string;
+  declaredName: string;
+  declaredResult: string;
+}
+
 export interface SK24GamesData {
   games: SK24Game[];
+  spotlight?: SK24Spotlight;
   scrapedAt: number;
 }
 

@@ -5,6 +5,17 @@ import type { GameResult, ChartRow } from "./types";
 const HEADERS = { "User-Agent": "Mozilla/5.0" };
 const TIMEOUT = 15_000;
 
+// Extract HTML tables from Next.js RSC streaming payload
+// RSC pages embed rendered HTML inside script tags, not in the DOM
+function extractRSCHtml(html: string): string {
+  // Find all table HTML embedded in the RSC payload or direct DOM
+  const tableMatches = html.match(/<table class="newtable"[\s\S]*?<\/table>/g);
+  if (tableMatches && tableMatches.length > 0) {
+    return tableMatches.join("\n");
+  }
+  return html;
+}
+
 // ─── Homepage Scraper ───
 // Scrapes LIVE, NEXT, REST sections from satta-king-fast.com
 
@@ -123,7 +134,14 @@ export async function scrapeMonthlyChart(month: string, year: string): Promise<C
 
 // ─── Game Chart Scraper ───
 
+// Slug aliases: SK24 game names → satta-king-fast.com slugs
+const SLUG_ALIASES: Record<string, string> = {
+  desawer: "desawar",
+};
+
 export async function scrapeGameChart(slug: string, month?: string, year?: string) {
+  const resolvedSlug = SLUG_ALIASES[slug] || slug;
+
   // Get homepage to find chart URL
   const { data: homeHtml } = await axios.get("https://satta-king-fast.com/", {
     headers: HEADERS,
@@ -132,7 +150,7 @@ export async function scrapeGameChart(slug: string, month?: string, year?: strin
 
   const $home = cheerio.load(homeHtml);
   let chartUrl = "";
-  $home(`a[href*="/${slug}/satta-result-chart/"]`).each((_i, el) => {
+  $home(`a[href*="/${resolvedSlug}/satta-result-chart/"]`).each((_i, el) => {
     if (!chartUrl) chartUrl = $home(el).attr("href") || "";
   });
 
@@ -218,13 +236,29 @@ export async function scrapeGameChart(slug: string, month?: string, year?: strin
 // ─── SK24 Game Chart Scraper ───
 // Fallback scraper for games only available on satta-king-24.com
 
+// SK24 abbreviation → full slug mapping
+const SK24_ABBR_TO_SLUG: Record<string, string> = {
+  ds: "desawer", shdm: "shiv-dham", pkb: "pushkar-bazar",
+  "delhi m": "delhi-metro", db: "delhi-bazar", "shri sym": "shri-sayam",
+  sg: "shri-ganesh", klb: "kolmbia", fb: "faridabad", mm: "makka-madina",
+  gzbd: "ghaziabad", klkn: "kalka-night", gali: "gali",
+  "shirdi dham": "shirdi-dham", "sadar bazar": "sadar-bazar",
+  "delhi darbar": "delhi-darbar", kaliyar: "kaliyar", gwalior: "gwalior",
+  "new ganga": "new-ganga", "delhi matka": "delhi-matka",
+  agra: "agra", fthbd: "fatehabad", alwar: "alwar", sktp: "shakti-peeth",
+  "mandi bazar": "mandi-bazar", "ghaziabad king": "ghaziabad-king",
+  mathura: "mathura", dwarka: "dwarka",
+};
+
 export async function scrapeSK24GameChart(slug: string, month?: string, year?: string) {
-  const { data: html } = await axios.get("https://www.satta-king-24.com/chart", {
+  const { data: rawHtml } = await axios.get("https://www.satta-king-24.com/chart", {
     headers: HEADERS,
     timeout: TIMEOUT,
   });
 
-  const $ = cheerio.load(html);
+  // SK24 uses Next.js RSC streaming — table HTML is inside script tags
+  const tableHtml = extractRSCHtml(rawHtml);
+  const $ = cheerio.load(tableHtml);
   const gameNameUpper = slug.replace(/-/g, " ").toUpperCase();
 
   // Find the game column across all tables
@@ -236,24 +270,34 @@ export async function scrapeSK24GameChart(slug: string, month?: string, year?: s
   $("table.newtable").each((_, table) => {
     if (gameColIndex >= 0) return; // already found
 
+    // Find headers — first tr with th elements
     const headers: string[] = [];
-    $(table).find("tr").eq(1).find("th").each((_, th) => {
+    $(table).find("th").each((_, th) => {
       headers.push($(th).text().trim());
     });
 
-    // Check if this table has our game
-    const idx = headers.findIndex(
-      (h) => h.toLowerCase().replace(/\s+/g, "-") === slug || h.toUpperCase() === gameNameUpper
-    );
+    // Check if this table has our game (try exact match, then abbreviation mapping)
+    const idx = headers.findIndex((h) => {
+      if (h.toUpperCase() === "DATE") return false; // skip DATE column
+      const hLower = h.toLowerCase().replace(/\s+/g, "-");
+      const hUpper = h.toUpperCase();
+      if (hLower === slug || hUpper === gameNameUpper) return true;
+      // Check if this abbreviation maps to our slug
+      const mappedSlug = SK24_ABBR_TO_SLUG[h.toLowerCase()];
+      return mappedSlug === slug;
+    });
 
     if (idx >= 0) {
       gameColIndex = idx;
       foundHeaders = headers;
-      chartTitle = $(table).find("tr").first().text().trim().replace(/\s+/g, " ");
+      chartTitle = headers.filter(h => h.toUpperCase() !== "DATE").join(", ");
 
-      $(table).find("tbody tr").each((_, tr) => {
+      // Collect data rows (tr elements that have td, not th)
+      $(table).find("tr").each((_, tr) => {
+        const tds = $(tr).find("td");
+        if (tds.length === 0) return; // skip header row
         const cells: string[] = [];
-        $(tr).find("td").each((_, td) => {
+        tds.each((_, td) => {
           cells.push($(td).text().trim());
         });
         if (cells.length > 0) foundRows.push(cells);
@@ -272,10 +316,11 @@ export async function scrapeSK24GameChart(slug: string, month?: string, year?: s
 
   foundRows.forEach((cells) => {
     const dateStr = cells[0] || "";
-    // dateStr format is like "01-05" (dd-mm)
-    const dateParts = dateStr.split("-");
+    // dateStr format: "DD/MM" (e.g., "01/06") or "DD-MM"
+    const dateParts = dateStr.split(/[-/]/);
     const dayNum = dateParts[0] || dateStr;
-    const gameResult = cells[gameColIndex] || "XX";
+    const rawResult = cells[gameColIndex] || "";
+    const gameResult = rawResult === "-" || rawResult === "" ? "XX" : rawResult;
 
     let dayName = "";
     if (dateParts.length === 2) {
@@ -291,7 +336,7 @@ export async function scrapeSK24GameChart(slug: string, month?: string, year?: s
     results.push({
       date: dayNum,
       day: dayName,
-      result: gameResult || "XX",
+      result: gameResult,
     });
   });
 

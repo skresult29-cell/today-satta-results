@@ -24,12 +24,6 @@ interface SK24Game {
   today: string;
 }
 
-interface SK24ChartTable {
-  title: string;
-  headers: string[];
-  rows: string[][];
-}
-
 interface ChartRow {
   date: string;
   frbd: string;
@@ -118,7 +112,7 @@ export default function HomePage() {
   const [restResults, setRestResults] = useState<GameResult[]>([]);
   const [chartData, setChartData] = useState<{ month: string; year: string; results: ChartRow[] }>({ month: "", year: "", results: [] });
   const [sk24Games, setSk24Games] = useState<SK24Game[]>([]);
-  const [sk24Charts, setSk24Charts] = useState<SK24ChartTable[]>([]);
+  const [spotlight, setSpotlight] = useState<{ upcomingName: string; declaredName: string; declaredResult: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const containerRef = useScrollAnimation([loading]);
 
@@ -136,14 +130,15 @@ export default function HomePage() {
       safeFetch("/api/rest-results"),
       safeFetch(`/api/monthly-chart?month=${month}&year=${year}`),
       safeFetch("/api/sattaking24"),
-      safeFetch("/api/sattaking24-chart"),
-    ]).then(([live, next, rest, chart, sk24, sk24chart]) => {
+    ]).then(([live, next, rest, chart, sk24]) => {
       if (live.success) setLiveResults(live.results || []);
       if (next.success) setNextResults(next.results || []);
       if (rest.success) setRestResults(rest.results || []);
       if (chart.success) setChartData({ month: chart.month, year: chart.year, results: chart.results || [] });
-      if (sk24.success) setSk24Games(sk24.games || []);
-      if (sk24chart.success) setSk24Charts(sk24chart.tables || []);
+      if (sk24.success) {
+        setSk24Games(sk24.games || []);
+        if (sk24.spotlight) setSpotlight(sk24.spotlight);
+      }
       setLoading(false);
     });
   }, []);
@@ -160,6 +155,7 @@ export default function HomePage() {
   return (
     <div ref={containerRef}>
       <WhatsAppModal />
+
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
@@ -193,6 +189,9 @@ export default function HomePage() {
           </div>
         ) : (
           <>
+            {/* Live Spotlight — next upcoming + last declared */}
+            {spotlight && <LiveSpotlight spotlight={spotlight} />}
+
             {/* Satta King 24 Results */}
             {sk24Games.length > 0 && (
               <SK24ResultsSection games={sk24Games} />
@@ -216,11 +215,6 @@ export default function HomePage() {
             )}
 
             <AdSlot placement="homepage_middle" />
-
-            {/* Satta King 24 Charts */}
-            {sk24Charts.length > 0 && (
-              <SK24ChartsSection tables={sk24Charts} />
-            )}
 
             {/* NEXT Section */}
             {filteredNext.length > 0 && (
@@ -289,13 +283,54 @@ export default function HomePage() {
 
 // ─── Game Results Table Section ───
 
+// ─── Live Spotlight — upcoming + last declared (scraped from SK24 hero) ───
+
+function LiveSpotlight({ spotlight }: { spotlight: { upcomingName: string; declaredName: string; declaredResult: string } }) {
+  if (!spotlight.upcomingName && !spotlight.declaredName) return null;
+
+  return (
+    <div className="bg-[#0a0f1a] rounded-xl border-2 border-slate-700 overflow-hidden shadow-lg">
+      {/* Date/Time Header */}
+      <div className="bg-white py-1.5 px-3 text-center">
+        <p className="text-xs md:text-sm font-bold text-[#0f172a] font-mono">
+          {format(new Date(), "MMMM d, yyyy h:mm:ss a")}
+        </p>
+      </div>
+
+      {/* Horizontal layout — upcoming + declared */}
+      <div className="flex items-center justify-center divide-x divide-slate-700">
+        {/* Upcoming */}
+        {spotlight.upcomingName && (
+          <div className="flex flex-col items-center py-4 md:py-5 px-4 md:px-8 flex-1 animate-fade-pulse">
+            <p className="text-sm md:text-lg font-extrabold text-white uppercase text-center tracking-wide leading-tight">
+              {spotlight.upcomingName}
+            </p>
+            <FiClock className="mt-2 w-8 h-8 md:w-10 md:h-10 text-slate-400" />
+          </div>
+        )}
+
+        {/* Declared */}
+        {spotlight.declaredName && (
+          <div className="flex flex-col items-center py-4 md:py-5 px-4 md:px-8 flex-1">
+            <p className="text-sm md:text-lg font-extrabold text-white uppercase text-center tracking-wide leading-tight">
+              {spotlight.declaredName}
+            </p>
+            <p className="text-3xl md:text-4xl font-extrabold text-slate-300 font-mono mt-1.5">
+              {spotlight.declaredResult}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Game Results Table Section ───
+
 function GameSection({
   title,
   subtitle,
-  icon,
-  accentColor,
   headerBg,
-  badgeBg,
   games,
   isLive,
 }: {
@@ -308,83 +343,76 @@ function GameSection({
   games: GameResult[];
   isLive?: boolean;
 }) {
+  // Map headerBg class to a hex color for the title bar
+  const titleBarColor = headerBg.includes("dc2626") ? "#dc2626"
+    : headerBg.includes("d97706") ? "#d97706"
+    : headerBg.includes("059669") ? "#059669"
+    : "#5f9ea0";
+
   return (
     <section className="sa opacity-0 translate-y-8">
-      {/* Section Header */}
-      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
-        <div className={`p-2 rounded-lg ${headerBg} text-white shrink-0`}>
-          {icon}
+      <div className="bg-white rounded-xl border-2 border-black overflow-hidden shadow-sm">
+        {/* Title Bar */}
+        <div
+          className="text-white text-center py-2.5 px-3 text-sm md:text-base font-bold uppercase tracking-wide"
+          style={{ backgroundColor: titleBarColor }}
+        >
+          {title} {isLive && <span className="inline-block w-2 h-2 bg-white rounded-full animate-live-pulse ml-1" />}
+          <span className="block text-[11px] md:text-xs font-normal normal-case tracking-normal opacity-80">{subtitle}</span>
         </div>
-        <div className="min-w-0">
-          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
-            {title}
-            {isLive && <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />}
-          </h2>
-          <p className="text-[14px] md:text-xs text-gray-400">{subtitle}</p>
-        </div>
-        <div className={`ml-auto px-2.5 md:px-3 py-1 rounded-full text-[16spx] md:text-xs font-bold ${badgeBg} shrink-0`}>
-          {games.length} Games
-        </div>
-      </div>
 
-      {/* Results Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <table className="w-full table-fixed">
-          <thead>
-            <tr className={`${headerBg} text-white text-[14px] md:text-base uppercase tracking-wider`}>
-              <th className="py-2 px-1 md:px-4 text-left font-semibold w-[38%] md:w-auto">Game</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Yest.</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Today</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[13%] md:w-auto">Chart</th>
-            </tr>
-          </thead>
-          <tbody>
-            {games.map((game, i) => {
-              const slug = game.name.toLowerCase().replace(/\s+/g, "-");
-              return (
-                <tr
-                  key={game.name + i}
-                  className={`border-t border-gray-100 transition-colors hover:bg-gray-50 ${
-                    i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                  }`}
-                >
-                  <td className="py-2 px-1 md:px-4">
-                    <div className="font-extrabold text-[#1a1a2e] uppercase text-[14px]
-                     md:text-lg leading-tight break-words">
-                      {game.name}
-                    </div>
-                    <div className="text-[12px] md:hidden text-gray-400 font-medium mt-0.5">
+        {/* Column Headers */}
+        <div className="overflow-x-auto">
+          <table className="w-full table-fixed text-sm md:text-base border-collapse">
+            <thead>
+              <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase">
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-left w-[32%] md:w-auto">GAME</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center hidden md:table-cell">TIME</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[18%] md:w-auto">YEST.</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[18%] md:w-auto">TODAY</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[14%] md:w-auto">CHART</th>
+              </tr>
+            </thead>
+            <tbody>
+              {games.map((game, i) => {
+                const slug = game.name.toLowerCase().replace(/\s+/g, "-");
+                return (
+                  <tr
+                    key={game.name + i}
+                    className={`text-center ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                  >
+                    <td className="py-1.5 px-1 md:px-3 font-bold text-[#1a1a2e] uppercase text-left border border-black text-[13px] md:text-base">
+                      <div className="leading-tight break-words">{game.name}</div>
+                      <div className="text-[11px] md:hidden text-gray-400 font-medium">{game.time}</div>
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 font-mono font-bold text-gray-500 border border-black hidden md:table-cell">
                       {game.time}
-                    </div>
-                  </td>
-                  <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
-                    {game.time}
-                  </td>
-                  <td className="py-2 px-0.5 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-2xl">
-                    {game.yesterday || "--"}
-                  </td>
-                  <td className={`py-2 px-0.5 md:px-3 text-center font-mono font-extrabold text-xl md:text-3xl ${accentColor}`}>
-                    {game.today || (isLive ? (
-                      <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#e63946]">
-                        <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
-                        WAIT
-                      </span>
-                    ) : "--")}
-                  </td>
-                  <td className="py-2 px-0.5 md:px-3 text-center">
-                    <Link
-                      href={`/chart/${slug}`}
-                      className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
-                    >
-                      View
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 font-mono font-bold text-gray-700 border border-black">
+                      {game.yesterday || "--"}
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 font-mono font-extrabold border border-black text-[#1e40af]">
+                      {game.today || (isLive ? (
+                        <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#e63946]">
+                          <span className="w-1.5 h-1.5 bg-[#e63946] rounded-full animate-live-pulse" />
+                          WAIT
+                        </span>
+                      ) : "--")}
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 border border-black">
+                      <Link
+                        href={`/chart/${slug}`}
+                        className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700"
+                      >
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );
@@ -516,130 +544,66 @@ function MonthlyChartSection({ month: initialMonth, year: initialYear, rows: ini
 function SK24ResultsSection({ games }: { games: SK24Game[] }) {
   return (
     <section className="sa opacity-0 translate-y-8">
-      {/* Section Header */}
-      <div className="flex items-center gap-2.5 md:gap-3 mb-3">
-        <div className="p-2 rounded-lg bg-[#1e40af] text-white shrink-0">
-          <FiZap size={18} />
+      <div className="bg-white rounded-xl border-2 border-black overflow-hidden shadow-sm">
+        {/* Title Bar */}
+        <div className="bg-[#1e40af] text-white text-center py-2.5 px-3 text-sm md:text-base font-bold uppercase tracking-wide">
+          Today Satta King Result 2026 <span className="inline-block w-2 h-2 bg-white rounded-full animate-live-pulse ml-1" />
+          <span className="block text-[11px] md:text-xs font-normal normal-case tracking-normal opacity-80">
+            Fastest Satta King result site on internet &mdash; {games.length} Games
+          </span>
         </div>
-        <div className="min-w-0">
-          <h2 className="text-xl md:text-lg font-extrabold text-[#1a1a2e] flex items-center gap-2">
-            Today Satta King Result 2026
-            <span className="w-2 h-2 bg-[#e63946] rounded-full animate-live-pulse" />
-          </h2>
-          <p className="text-[14px] md:text-xs text-gray-400">Fastest Satta King result site on internet</p>
-        </div>
-        <div className="ml-auto px-2.5 md:px-3 py-1 rounded-full text-[16px] md:text-xs font-bold bg-blue-50 text-[#1e40af] shrink-0">
-          {games.length} Games
-        </div>
-      </div>
 
-      {/* Results Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <table className="w-full table-fixed">
-          <thead>
-            <tr className="bg-[#1e40af] text-white text-[14px] md:text-base uppercase tracking-wider">
-              <th className="py-2 px-1 md:px-4 text-left font-semibold w-[38%] md:w-auto">Game</th>
-              <th className="py-2 px-1 md:px-3 text-center font-semibold hidden md:table-cell">Time</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Yest.</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[17%] md:w-auto">Today</th>
-              <th className="py-2 px-0.5 md:px-3 text-center font-semibold w-[13%] md:w-auto">Chart</th>
-            </tr>
-          </thead>
-          <tbody>
-            {games.map((game, i) => {
-              const slug = game.name.toLowerCase().replace(/\s+/g, "-");
-              return (
-              <tr
-                key={game.name + i}
-                className={`border-t border-gray-100 transition-colors hover:bg-gray-50 ${
-                  i % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                }`}
-              >
-                <td className="py-2 px-1 md:px-4">
-                  <div className="font-extrabold text-[#1a1a2e] uppercase text-[14px] md:text-lg leading-tight break-words">
-                    {game.name}
-                  </div>
-                  <div className="text-[12px] md:hidden text-gray-400 font-medium mt-0.5">
-                    {game.time}
-                  </div>
-                </td>
-                <td className="py-2 px-1 md:px-3 text-center text-gray-500 text-xl font-medium hidden md:table-cell">
-                  {game.time}
-                </td>
-                <td className="py-2 px-0.5 md:px-3 text-center font-mono font-bold text-gray-600 text-xl md:text-2xl">
-                  {game.yesterday || "--"}
-                </td>
-                <td className={`py-2 px-0.5 md:px-3 text-center font-mono font-extrabold text-xl md:text-3xl ${
-                  game.today === "XX" ? "text-[#dc2626]" : "text-[#1e40af]"
-                }`}>
-                  {game.today || "--"}
-                </td>
-                <td className="py-2 px-0.5 md:px-3 text-center">
-                  <Link
-                    href={`/chart/${slug}`}
-                    className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors"
-                  >
-                    View
-                  </Link>
-                </td>
+        {/* Column Headers */}
+        <div className="overflow-x-auto">
+          <table className="w-full table-fixed text-sm md:text-base border-collapse">
+            <thead>
+              <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase">
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-left w-[32%] md:w-auto">GAME</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center hidden md:table-cell">TIME</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[18%] md:w-auto">YEST.</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[18%] md:w-auto">TODAY</th>
+                <th className="py-2 px-1 md:px-3 font-semibold border border-black text-center w-[14%] md:w-auto">CHART</th>
               </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {games.map((game, i) => {
+                const slug = game.name.toLowerCase().replace(/\s+/g, "-");
+                return (
+                  <tr
+                    key={game.name + i}
+                    className={`text-center ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                  >
+                    <td className="py-1.5 px-1 md:px-3 font-bold text-[#1a1a2e] uppercase text-left border border-black text-[13px] md:text-base">
+                      <div className="leading-tight break-words">{game.name}</div>
+                      <div className="text-[11px] md:hidden text-gray-400 font-medium">{game.time}</div>
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 font-mono font-bold text-gray-500 border border-black hidden md:table-cell">
+                      {game.time}
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 font-mono font-bold text-gray-700 border border-black">
+                      {game.yesterday || "--"}
+                    </td>
+                    <td className={`py-1.5 px-1 md:px-3 font-mono font-extrabold border border-black ${
+                      game.today === "XX" ? "text-[#dc2626]" : "text-[#1e40af]"
+                    }`}>
+                      {game.today || "--"}
+                    </td>
+                    <td className="py-1.5 px-1 md:px-3 border border-black">
+                      <Link
+                        href={`/chart/${slug}`}
+                        className="text-[12px] md:text-sm font-bold text-blue-500 hover:text-blue-700"
+                      >
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
-  );
-}
-
-// ─── Satta King 24 Charts Section ───
-
-function SK24ChartsSection({ tables }: { tables: SK24ChartTable[] }) {
-  return (
-    <div className="sa opacity-0 translate-y-8 space-y-6">
-      {tables.map((table, idx) => (
-        <div key={idx} className="bg-white rounded-xl border-2 border-black overflow-hidden shadow-sm">
-          <div className="bg-[#5f9ea0] text-white text-center py-2.5 px-3 text-sm md:text-base font-bold">
-            {table.title}
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full table-fixed text-sm md:text-base border-collapse">
-              <thead>
-                <tr className="bg-[#0f172a] text-white text-xs md:text-sm uppercase">
-                  {table.headers.map((h, hi) => (
-                    <th key={hi} className="py-2 px-1 md:px-3 font-semibold border border-black">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {table.rows.map((row, ri) => (
-                  <tr key={ri} className={`text-center ${ri % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
-                    {row.map((cell, ci) => (
-                      <td
-                        key={ci}
-                        className={`py-1.5 px-1 md:px-3 font-mono font-bold border border-black ${
-                          ci === 0 ? "text-[#f87171]" : "text-gray-700"
-                        }`}
-                      >
-                        {cell || "--"}
-                      </td>
-                    ))}
-                    {/* Fill empty cells if row is shorter than headers */}
-                    {Array.from({ length: Math.max(0, table.headers.length - row.length) }).map((_, fi) => (
-                      <td key={`fill-${fi}`} className="py-1.5 px-1 md:px-3 font-mono font-bold border border-black text-gray-700">
-                        --
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ))}
-    </div>
   );
 }
 
@@ -784,6 +748,9 @@ function GameScheduleSection() {
 // ─── Telegram Section ───
 
 function TelegramSection() {
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "911234567890";
+  const waLink = `https://wa.me/${phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("VP BHAI")}`;
+
   return (
     <div className="sa opacity-0 translate-y-8 bg-gradient-to-b from-[#0f172a] to-[#1e293b] rounded-xl border border-slate-700 p-5 md:p-8 text-center space-y-4 shadow-lg">
       <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#0088cc]/20 mb-1">
@@ -793,10 +760,10 @@ function TelegramSection() {
         Satta King Daily Passing Tricks
       </h3>
       <p className="text-slate-300 text-sm md:text-base leading-relaxed max-w-lg mx-auto">
-        Delhi Bazar se Disawar tak daily passing pane ke liye hamare Telegram channel ko join karein.
+        Delhi Bazar se Disawar tak daily passing pane ke liye hamare WhatsApp par contact karein.
       </p>
       <a
-        href="https://t.me/kingfast24"
+        href={waLink}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 bg-[#0088cc] hover:bg-[#0077b5] text-white font-extrabold text-base md:text-lg px-6 py-3 rounded-full shadow-lg shadow-[#0088cc]/20 transition-all hover:scale-105 hover:shadow-[#0088cc]/40 hover:shadow-xl"
@@ -805,7 +772,7 @@ function TelegramSection() {
         Join Telegram Channel
       </a>
       <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-lg mx-auto">
-        Channel join karke website ko bookmark kar lo, taaki aapko rozana 2-3 game passing aur latest updates milti rahein.
+        Website ko bookmark kar lo, taaki aapko rozana 2-3 game passing aur latest updates milti rahein.
       </p>
     </div>
   );

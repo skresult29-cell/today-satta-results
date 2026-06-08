@@ -4,6 +4,8 @@ import { getMonthlyChartFromFirestore, saveMonthlyChartToFirestore } from "@/lib
 import type { MonthlyChartData } from "@/lib/types";
 import { memGet, memSet, CHART_CACHE_HEADERS } from "@/lib/api-helpers";
 
+const STALE_MS = 10 * 60 * 1000; // 10 minutes — re-scrape if older
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const monthName = searchParams.get("month") || "may";
@@ -20,9 +22,9 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // 2. Firebase
+  // 2. Firebase (with staleness check)
   const firebaseData = await getMonthlyChartFromFirestore(monthName, year);
-  if (firebaseData) {
+  if (firebaseData && Date.now() - firebaseData.scrapedAt < STALE_MS) {
     memSet(cacheKey, firebaseData, 120); // cache 2 min
     return Response.json(
       { success: true, month: firebaseData.month, year: firebaseData.year, results: firebaseData.results },
