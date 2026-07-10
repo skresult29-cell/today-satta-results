@@ -13,7 +13,7 @@ import type { GameResult, SK24Game } from "@/lib/types";
 // Server-render the page and revalidate at most once every 30s. The HTML
 // (results + charts) is cached at the edge, so a traffic spike triggers at most
 // one regeneration per window — no per-request scraping, no client fetch waterfall.
-export const revalidate = 30;
+export const revalidate = 60;
 
 // ─── Main Page (Server Component) ───
 
