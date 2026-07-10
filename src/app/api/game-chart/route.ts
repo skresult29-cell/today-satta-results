@@ -36,7 +36,17 @@ export async function GET(req: NextRequest) {
 
   const slug = SLUG_ALIASES[rawSlug.toLowerCase()] || rawSlug.toLowerCase();
   const cacheKey = `game:${slug}:${month || "current"}:${year || "current"}`;
-
+  console.log({
+    api: "game-chart",
+    slug,
+    month,
+    year,
+    ua: req.headers.get("user-agent"),
+    ip:
+      req.headers.get("x-forwarded-for") ||
+      req.headers.get("x-real-ip"),
+    referer: req.headers.get("referer"),
+  });
   // 1. In-memory cache (instant, per-instance).
   const cached = memGet<GameChartData>(cacheKey);
   if (cached) {
@@ -46,6 +56,7 @@ export async function GET(req: NextRequest) {
   // 2. Firebase-first — the shared cache is the authoritative read path. No
   //    scraping happens here on the hot path, so traffic never reaches the source.
   const firebaseData = await getGameChartFromFirestore(slug, month, year);
+  console.log("[FIRESTORE READ]", slug, !!firebaseData);
   if (firebaseData && firebaseData.results?.length) {
     memSet(cacheKey, firebaseData, 300);
     // If it has gone stale, refresh in the background (bounded to ~1 scrape / 15min

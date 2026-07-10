@@ -276,6 +276,12 @@ export async function saveGameChartToFirestore(
   data: GameChartData
 ): Promise<void> {
   try {
+    console.log(
+      "[FIRESTORE] game_chart",
+      slug,
+      month,
+      year
+    );
     const docId = `game_${slug}_${(month || "current").toLowerCase()}_${year || "current"}`;
 
     await adminDb.collection(COLLECTION).doc(docId).set({

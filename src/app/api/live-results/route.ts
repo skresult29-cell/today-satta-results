@@ -1,6 +1,11 @@
 import { getHomepageData, EDGE_CACHE_HEADERS } from "@/lib/api-helpers";
 
-export async function GET() {
+export async function GET(req:any) {
+  console.log(
+    "[LIVE-RESULTS]",
+    new Date().toISOString(),
+    req.headers.get("user-agent")
+  );
   const homepage = await getHomepageData();
 
   if (!homepage) {
