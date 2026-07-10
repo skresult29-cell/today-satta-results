@@ -127,7 +127,7 @@ async function refreshSK24(): Promise<SK24GamesData | null> {
 // ─── Get Monthly Chart Data (on-demand) ───
 // Flow: Memory cache → Firebase → Scrape
 
-const CHART_ = 10 * 60 * 1000; // 10 minutes
+const CHART_STALE_MS = 10 * 60 * 1000; // 10 minutes
 
 export async function getMonthlyChart(
   monthName: string,
