@@ -12,7 +12,7 @@ import {
   limit,
   where,
   startAfter,
-  onSnapshot,
+  // onSnapshot,
   serverTimestamp,
   DocumentSnapshot,
 } from "firebase/firestore";
@@ -83,21 +83,21 @@ export async function getRecentResults(pageSize = 7, lastDoc?: DocumentSnapshot)
   };
 }
 
-export function subscribeToDailyResults(
-  date: string,
-  callback: (data: DailyResult | null) => void
-) {
-  if (useMock) {
-    const found = MOCK_DAILY_RESULTS.find((r) => r.date === date);
-    // Simulate async delivery
-    setTimeout(() => callback(found || MOCK_TODAY), 100);
-    return () => {}; // noop unsubscribe
-  }
-  const docRef = doc(db(), "daily_results", date);
-  return onSnapshot(docRef, (snap) => {
-    callback(snap.exists() ? (snap.data() as DailyResult) : null);
-  });
-}
+// export function subscribeToDailyResults(
+//   date: string,
+//   callback: (data: DailyResult | null) => void
+// ) {
+//   if (useMock) {
+//     const found = MOCK_DAILY_RESULTS.find((r) => r.date === date);
+//     // Simulate async delivery
+//     setTimeout(() => callback(found || MOCK_TODAY), 100);
+//     return () => {}; // noop unsubscribe
+//   }
+//   const docRef = doc(db(), "daily_results", date);
+//   return onSnapshot(docRef, (snap) => {
+//     callback(snap.exists() ? (snap.data() as DailyResult) : null);
+//   });
+// }
 
 export async function updateDailyResult(
   date: string,
