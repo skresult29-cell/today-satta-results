@@ -39,7 +39,7 @@ export function memSet<T>(key: string, data: T, ttlSeconds: number): void {
 // Kept short so freshly-declared results (Gali/Ghaziabad/Faridabad) surface fast.
 // We never block a user on a scrape: stale data is served instantly and refreshed
 // in the background (see getHomepageData / getSK24Data), so a short window is cheap.
-const STALE_MS = 60 * 1000; // 1 minute
+const STALE_MS = 5 * 60 * 1000; // 1 minute
 
 function isStale(scrapedAt: number): boolean {
   return Date.now() - scrapedAt > STALE_MS;
@@ -59,7 +59,7 @@ export async function getHomepageData(): Promise<HomepageData | null> {
 
   if (firebaseData && !isStale(firebaseData.scrapedAt)) {
     // Fresh data — use it
-    memSet("homepage", firebaseData, 30);
+    memSet("homepage", firebaseData, 300);
     return firebaseData;
   }
 
@@ -97,7 +97,7 @@ export async function getSK24Data(): Promise<SK24GamesData | null> {
 
   const firebaseData = await getSK24GamesFromFirestore();
   if (firebaseData && !isStale(firebaseData.scrapedAt)) {
-    memSet("sk24-games", firebaseData, 30);
+    memSet("sk24-games", firebaseData, 300);
     return firebaseData;
   }
 
@@ -127,7 +127,7 @@ async function refreshSK24(): Promise<SK24GamesData | null> {
 // ─── Get Monthly Chart Data (on-demand) ───
 // Flow: Memory cache → Firebase → Scrape
 
-const CHART_STALE_MS = 10 * 60 * 1000; // 10 minutes
+const CHART_ = 10 * 60 * 1000; // 10 minutes
 
 export async function getMonthlyChart(
   monthName: string,
