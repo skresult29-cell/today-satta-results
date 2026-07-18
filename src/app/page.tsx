@@ -7,6 +7,7 @@ import { WhatsAppModal } from "@/components/layout/WhatsAppModal";
 import { MonthlyChartSection } from "@/components/home/MonthlyChartSection";
 import { ScrollAnimator } from "@/components/home/ScrollAnimator";
 import { getHomepageData, getSK24Data, getMonthlyChart } from "@/lib/api-helpers";
+import { FEATURED_GAMES } from "@/lib/featured-games";
 import { isTodayResultDeclared } from "@/lib/utils";
 import type { GameResult, SK24Game } from "@/lib/types";
 
@@ -76,6 +77,9 @@ export default async function HomePage() {
           </Link>
         </p>
       </div>
+
+      {/* Featured Game Result Pages */}
+      <FeaturedGamesBox year={year} />
 
       <div className="max-w-[1400px] mx-auto px-2 sm:px-3 md:px-6 py-4 md:py-6 space-y-6 md:space-y-8">
         <AdSlot placement="homepage_top" />
@@ -155,6 +159,36 @@ export default async function HomePage() {
         <SeoContent />
       </div>
     </ScrollAnimator>
+  );
+}
+
+// ─── Featured Games Box — quick links to dedicated result pages ───
+
+function FeaturedGamesBox({ year }: { year: string }) {
+  return (
+    <div className="bg-[#111c2e] border-b border-slate-700 py-4 md:py-5 px-3 md:px-4">
+      <div className="max-w-4xl mx-auto bg-[#0a0f1a] rounded-xl border-2 border-slate-700 p-3.5 md:p-5 shadow-lg">
+        <p className="text-center text-sm md:text-base font-extrabold text-white uppercase tracking-wide mb-3">
+          Satta King Result {year} <span className="text-[#d4a017]">&mdash;</span> Direct Result Pages
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
+          {FEATURED_GAMES.map((game) => (
+            <Link
+              key={game.slug}
+              href={`/${game.slug}`}
+              className="block text-center bg-gradient-to-b from-[#1e293b] to-[#0f172a] hover:from-[#d4a017] hover:to-[#b45309] border border-slate-600 hover:border-[#d4a017] rounded-lg py-2.5 md:py-3 px-2 transition-all hover:scale-[1.03]"
+            >
+              <span className="block text-white font-extrabold text-[13px] md:text-sm uppercase leading-tight">
+                {game.name} Result {year}
+              </span>
+              <span className="block text-[10px] md:text-[11px] text-slate-400 mt-0.5 font-medium">
+                {game.time} &bull; Today &amp; Chart
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

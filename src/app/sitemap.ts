@@ -34,6 +34,7 @@
 import { MetadataRoute } from "next";
 import { getHomepageData, getSK24Data } from "@/lib/api-helpers";
 import { getAllPosts } from "@/lib/blog-data";
+import { FEATURED_GAMES } from "@/lib/featured-games";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.todaysattaresults.com";
@@ -76,6 +77,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+
+    ...FEATURED_GAMES.map((game) => ({
+      url: `${baseUrl}/${game.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    })),
 
     ...getAllPosts().map((post) => ({
       url: `${baseUrl}/blog/${post.slug}`,
