@@ -59,7 +59,7 @@ export default async function HomePage() {
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white text-center py-5 md:py-8 px-3 md:px-4">
         <h1 className="text-2xl sm:text-xl md:text-4xl font-extrabold tracking-tight mb-1 md:mb-2">
-          Today Satta Result {year} - Live Gali, Desawar, Faridabad &amp; Ghaziabad Results
+        TodaySattaResults.com - Live Gali, Desawar, Faridabad &amp; Ghaziabad Results
         </h1>
         <div className="mt-2.5 md:mt-4 inline-flex items-center gap-1.5 md:gap-2 bg-white/5 border border-white/10 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[14px] md:text-xs text-slate-300">
           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-400 rounded-full animate-live-pulse" />
@@ -71,16 +71,14 @@ export default async function HomePage() {
       <div className="bg-[#1e293b] border-b border-slate-700 py-1.5 md:py-2 px-2 md:px-4">
         <p className="text-center text-[12px] sm:text-[10px] md:text-xs text-slate-400 max-w-4xl mx-auto leading-relaxed">
           <span className="font-bold text-[#e63946]">DISCLAIMER:</span>{" "}
-          TodaySattaResult.com is an independent informational website. We do not promote gambling or betting.{" "}
+          TodaySattaResults.com is an independent informational website. We do not promote gambling or betting.{" "}
           <Link href="/disclaimer" className="text-[#d4a017] hover:underline font-medium">
             Read Full Disclaimer
           </Link>
         </p>
       </div>
 
-      {/* Featured Game Result Pages */}
-      <FeaturedGamesBox year={year} />
-
+     
       <div className="max-w-[1400px] mx-auto px-2 sm:px-3 md:px-6 py-4 md:py-6 space-y-6 md:space-y-8">
         <AdSlot placement="homepage_top" />
 
@@ -134,6 +132,8 @@ export default async function HomePage() {
             games={filteredRest}
           />
         )}
+ {/* Featured Game Result Pages */}
+ <FeaturedGamesBox year={year} />
 
         {/* Monthly Chart */}
         {chartData.results.length > 0 && (
@@ -166,10 +166,10 @@ export default async function HomePage() {
 
 function FeaturedGamesBox({ year }: { year: string }) {
   return (
-    <div className="bg-[#111c2e] border-b border-slate-700 py-4 md:py-5 px-3 md:px-4">
-      <div className="max-w-4xl mx-auto bg-[#0a0f1a] rounded-xl border-2 border-slate-700 p-3.5 md:p-5 shadow-lg">
-        <p className="text-center text-sm md:text-base font-extrabold text-white uppercase tracking-wide mb-3">
-          Satta King Result {year} <span className="text-[#d4a017]">&mdash;</span> Direct Result Pages
+    <div className="bg-[] border-b border-slate-700 py-4 md:py-5 px-3 md:px-4">
+      <div className="max-w-4xl mx-auto bg-[] rounded-xl border-2 border-slate-700 p-3.5 md:p-5 shadow-lg">
+        <p className="text-center text-sm md:text-base font-extrabold text-black uppercase tracking-wide mb-3">
+          Satta King Result {year} <span className="text-[#000]">&mdash;</span> Direct Result Pages
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
           {FEATURED_GAMES.map((game) => (
